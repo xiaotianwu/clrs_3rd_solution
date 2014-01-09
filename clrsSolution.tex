@@ -1,0 +1,1811 @@
+% ----------------------------------------------------------------
+% Article Class (This is a LaTeX2e document)  ********************
+% ----------------------------------------------------------------
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage{amsmath,amsthm}
+\usepackage{amsfonts}
+\usepackage{clrscode}
+\usepackage{graphicx}
+% THEOREMS -------------------------------------------------------
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+%\numberwithin{equation}{section}
+% ----------------------------------------------------------------
+\begin{document}
+
+\title{Solution of CLRS $3^{rd}$}%
+\maketitle
+% ----------------------------------------------------------------
+\section{The Role of Algorithms in Computing}
+\subsection*{Exercise 1.1-1}
+Use insertion sort when you play card.
+\subsection*{Exercise 1.1-2}
+energy conversion rate
+\subsection*{Exercise 1.1-3}
+Array, fast appending element but deletion is slow
+\subsection*{Exercise 1.1-4}
+The goals of both these problems are to find a shortest path from one point to another point. There are lots of difference. The most important item is, the former is P and the latter is NP-Hard.
+\subsection*{Exercise 1.1-5}
+Give the best way to find some element from a sorted array. (Binary search)\\
+Give the square root of a real number. (The binary system can not describe a irrational number precisely)
+\subsection*{Exercise 1.2-1}
+Find the guy who runs fastest from 100 candidates in the Olympic Game. Tournament Sort.
+\subsection*{Exercise 1.2-2}
+When merge sort beats insertion sort, we have $64n\lg{n}>8n^2,n\in \mathbb{N}$, $n>46$
+\subsection*{Exercise 1.2-3}
+$n = 15$ when $n\in \mathbb{N}$
+\subsection*{Problem 1-1}
+skip the parts of day/month/year/century and the part of $n\lg{n}$\\
+\\
+\begin{tabular}{|c|c|c|c|c|c|c|c|}\hline
+ & 1 second & 1 minute & 1 hour\\ \hline
+$\lg{n}$ & $2^{10^6}$ & $60^{10^6}$ & $3600^{10^6}$\\ \hline
+$\sqrt{n}$ & $10^{12}$ & $3600\cdot 10^{12}$ & $(3600\cdot 10^6)^2$\\ \hline
+$n$ & $10^6$ & $60\cdot 10^6$ & $3600\cdot 10^6$ \\ \hline
+$n^2$ & 1000 & 7746 & 60000 \\ \hline
+$n^3$ & 100 & 390 & 1532 \\ \hline
+$2^n$ & 19 & 24 & 29 \\ \hline
+$n!$ & 9 & 11 & 14 \\ \hline
+\end{tabular}
+\section{Getting Started}
+\subsection*{Exercise 2.1-1}
+31 \underline{41} 59 26 41 58\\
+31 41 \underline{59} 26 41 58\\
+26 31 41 \underline{59} 41 58\\
+26 31 41 41 \underline{59} 58\\
+26 31 41 41 58 \underline{59}\\
+\subsection*{Exercise 2.1-2}
+\begin{codebox}
+\Procname{$\proc{Non-Increasing-Sort(A)}$}
+\li \For $j = 2$ \To $A.length$ \label{li:for}
+\li \quad $key = A[j]$
+\li \quad $i = j - 1$
+\li \quad \While $i > 0$ and $A[i] < key$ \label{li:while}
+\li \qquad $A[i + 1] = A[i]$
+\li \qquad $i = i - 1$
+\li \quad $A[i + 1] = key$
+\end{codebox}
+\subsection*{Exercise 2.1-3}
+\begin{codebox}
+\Procname{$\proc{Linear-Search($A, v$)}$}
+\li \For $i = 1$ \To $A.length$ \label{li:for}
+\li \quad \If $A[i] = v$ \label{li:if}
+\li \qquad \Return i
+\li \Return Nil
+\end{codebox}
+$loop$ $invariant:$ $A[1..i-1]$ do not contain $v$ before $i$th iteration starts.
+\textbf{Initialization:}\\Trivial for the first iteration\\
+\textbf{Maintenance:}\\If the $i-1$th iteration found $v$, index $i-1$ will be returned. So as the current loop.\\
+\textbf{Termination:}\\It ends when $i = A.length$, one of the position in A will be returned, or it will return Nil.
+\subsection*{Exercise 2.1-4}
+\textbf{Input:} Two binary arrays, $A$ and $B$, $A.length = n$ and $B.length = n$, $f(X) = X_1X_2...X_n$, where $n = X.length$ and $X$ is array\\
+\textbf{Output:} An array C, where $f(C) = f(A) + f(B)$
+\begin{codebox}
+\Procname{$\proc{Sum($A, B$)}$}
+\li init array $C$ with $0$
+\li $Carry = 0$
+\li \For $i = 1$ \To $A.length$ \label{li:for}
+\li \quad $n = A[i] + B[i] + Carry$
+\li \quad \If $n > 1$ \label{li:if}
+\li \qquad $C[i] = n - 1$
+\li \qquad $Carry = 1$
+\li \quad \textbf{else}
+\li \qquad $C[i] = n$
+\li \qquad $Carry = 0$
+\li $C[n+1] = Carry$
+\li \Return $C$
+\end{codebox}
+\subsection*{Exercise 2.2-1}
+$\Theta(n^3)$
+\subsection*{Exercise 2.2-2}
+\begin{codebox}
+\Procname{$\proc{Selection-Sort($A$)}$}
+\li \For $i = 1$ \To $A.length-1$ \label{li:for}
+\li \quad Find minimum element in $A[i...A.length-1]$, denote it as $A[j]$
+\li \quad Swap $A[i]$ and $A[j]$
+\li \Return $A$
+\end{codebox}
+$loop$ $invariant$: $A[1...i-1]$ are the first $(i-1)th$ elements in $A[n]$ before iteration $i$ begins. Since before $n$th iterations, $A[1...n-1]$ are the first $(n-1)th$ elements, so $A[n]$ must be the largest element, the array has been in sorted order. Both the best-case and worst-cast are $\Theta(n^2)$
+\subsection*{Exercise 2.2-3}
+\textbf{average case:} $n/2$, $\Theta(n)$\\
+\textbf{worst case:} $n$, $\Theta(n)$
+\subsection*{Exercise 2.2-4}
+We compute all the possible input to get the optimal answer offline. Return the pre-computed result, it will cost $\Theta(1) for online part$
+\subsection*{Exercise 2.3-1}
+$3\ 41\to 3,41$\qquad $52\ 26\to 26,52$\qquad $38\ 57\to 38,57$\qquad $9\ 49\to 9,49$\\
+$3,41\ 26,52\to 3,26,41,52$\qquad $38,57\ 9,49\to 9,38,49,57$\\
+$3,26,41,52\ 9,38,49,57\to 3,9,26,38,41,49,52,57$
+\subsection*{Exercise 2.3-2}
+\begin{codebox}
+\Procname{$\proc{MergeV2($A, p, q, r$)}$}
+\li same as line 1-7 in MERGE
+\li $i=1$
+\li $j=1$
+\li \For $k = p$ \To $r$ \label{li:for}
+\li \quad same as line 13-17 in MERGE
+\li \quad \If $i=n_1$ \label{li:if}
+\li \qquad copy $R[j...n]$ to $A[k+1...r]$
+\li \qquad \textbf{break}
+\li \quad \If $j=n_2$ \label{li:if}
+\li \qquad copy $L[i...n]$ to $A[k+1...r]$
+\li \qquad \textbf{break}
+\end{codebox}
+\subsection*{Exercise 2.3-3}
+\textbf{Basis:} For $k=2$, $T(4)=2T(2)+4=8$ and $4\lg4=8$, $k=2$ holds\\
+\textbf{Inductive step:} If $T(2^{k-1})$ holds, $T(2^{k-1})=2^{k-1}\lg(2^{k-1})=(k-1)\cdot 2^{k-1}$. By recurrence, we have $T(2^k)=2T(2^k/2)+2^k=2\cdot 2^{k-1}(k-1)+2^k=k\cdot 2^k$, $T(2^k)$ also holds.
+\subsection*{Exercise 2.3-4}
+\(
+T(n)=\left\{
+\begin{array}{rr}
+1\qquad \mbox{if $n=2$}\\
+T(n-1)+\Theta(n) \qquad \mbox{if $n>2$}
+\end{array}\right.
+\)
+\subsection*{Exercise 2.3-5}
+\begin{codebox}
+\Procname{$\proc{BinarySearch($A, i, j, v$)}$}
+\li \If $i<j$
+\li \quad \Return Nil
+\li $mid = (i+j)/2$
+\li \If $A[mid]=v$ \label{li:if}
+\li \quad \Return mid
+\li \textbf{else if} $A[mid]<v$
+\li \quad \Return $\proc{BinarySearch($A, i, mid-1, v$)}$
+\li \textbf{else}
+\li \quad \Return $\proc{BinarySearch($A, mid+1, j, v$)}$
+\end{codebox}
+the worst case occurs when the function return Nil, the range of current search is always half of the last one, so the worst case is $\Theta(\lg{n})$
+\subsection*{Exercise 2.3-6}
+No, we can't. Even we use $\Theta(\lg{n})$ time to find the position to insert, we still need $\Theta(n)$ time to move the elements after it to the correct positions.
+\subsection*{Exercise 2.3-7}
+\begin{codebox}
+\Procname{$\proc{CheckSumInArray($A, sum$)}$}
+\li $\proc{MergeSort($A$)}$
+\li \For $i = 1$ \To $A.length$ \label{li:for}
+\li \quad $j=\proc{BinarySearch($A, i+1, A.length,sum-A[i]$)}$
+\li \quad \If $j\ne Nil$
+\li \qquad \Return $True$
+\li \Return $False$
+\end{codebox}
+Another solution:
+\begin{codebox}
+\Procname{$\proc{CheckSumInArray($A, sum$)}$}
+\li $S=\proc{MergeSort($A$)}$
+\li $S'=\proc{MergeSort($sum-A$)}$
+\li \If $sum\%2=0$
+\li \quad Check if there exists two elements which value is $sum/2$
+\li \Return $S\cap S'$ (This step can be done by \proc{Merge})
+\end{codebox}
+\subsection*{Problem 2-1}
+\textbf{a.} To sort an array with length $k$ costs $ck^2$ time, so sort $n/k$ arrays will cost $n/k\cdot ck^2=\Theta(nk)$ time.\\
+\textbf{b.} To merge $n/k$ lists, the first merge action needs $n/k-1$ comparisons. And it will create a tree with height $\lg(n/k)$. So the rest merge needs $\lg(n/k)-1$ comparison each time. The total cost is $n/k-1+(n-1)(\lg(n/k)-1)=\Theta(n\lg(n/k))$, the solution is based on loser tree. Another solution is using heap.\\
+\textbf{c.} $k=\Theta(\lg{n})$\\
+\textbf{d.} Let $a$ be the constant of insertion-sort, $b$ be the constant of merge sort, we should choose k to make the inequality $ank+b\lg(n/k)\le bn\lg n$ holds.
+\subsection*{Problem 2-2}
+\textbf{a.} We need to prove the set $\{x\mid x\in A'\}=\{x\mid x\in A\}$, which means the elements after sorting are the same as before.\\
+\textbf{b.} $loop$ $invariant$: The minimum element in array $A[j-1...A.length]$ is in the position $j-1$\\
+\textbf{(1)Initialization:}\\$A[A.length]$ is the min element of $A[A.length...A.length]$ before the first comparison.\\
+\textbf{(2)Maintenance:}\\Before the $j=k+1$ iteration begins, the min element of $A[k...A.length]$ is $A[k]$, after line 3 and 4, the min element will be switch to the position $k-1$.\\
+\textbf{(3)Termination:}\\After the final iteration ends, $A[i]$ is the min element of $A[i...A.length]$\\
+\textbf{c.} $loop$ $invariant$: The array $A[1...i]$ contains the first $i$th elements in the original array.\\
+\textbf{(1)Initialization:}\\It's trivially that $A[1]$ is the minimum element in the array.\\
+\textbf{(2)Maintenance:}\\Before $i$th iteration starts, $A[1...i-1]$ contains the first $i-1$th elements, and the $i$th iteration will switch $i$th element to its correct position.\\
+\textbf{(3)Termination:}\\After the final iteration, $A[1...A.length]$ is in sorted order.\\
+\textbf{d.} worst case running time is $n(n-1)/2=\Theta(n)$. Same as insertion sort.
+\subsection*{Problem 2-3}
+\textbf{a.} $\Theta(n)$\\
+\textbf{b.}
+\begin{codebox}
+\Procname{$\proc{PolynomialSum($A, x$)}$}
+\li $sum=0$
+\li \For $k = 0$ \To $n$ \label{li:for}
+\li \quad $s=1$
+\li \quad \For $i = 1$ \To $k$ \label{li:for}
+\li \qquad $s=s\cdot x$
+\li \quad $sum=sum+s$
+\li \Return $sum$
+\end{codebox}
+$\Theta(n^2)$, much more slower than $Horner's$\\
+\textbf{c.}\\
+\textbf{(1)Initialization:} Before the first iteration $i=n$ start, $y=0$, it's trivial.\\
+\textbf{(2)Maintenance:} The equality holds before $i-1$th iteration, such that we have $y=\sum_{k=0}^{n-i}a_{k+i}x^k$. And after $i-1$th iteration, we compute $y=\sum_{k=0}^{n-i}a_{k+i}x^k\cdot x+a_i=\sum_{k=0}^{n-(i+1)}a_{k+i+1}x^k$\\
+\textbf{(3)Termination:} Before the iteration $i=-1$, which means the algorithm terminates, the equality holds.\\
+\textbf{d.} Followed by \textbf{c.}
+\subsection*{Problem 2-4}
+\textbf{a.} 2,1\qquad 3,1\qquad 8,6\qquad 8,1\qquad 6,1\qquad \\
+\textbf{b.} ${n,n-1...1}$, $n(n-1)/2$ pairs.\\
+\textbf{c.} Two variables are equal. Since the insertion sort needs to switch each inversion pairs.\\
+\textbf{d.} In $\proc{Merge}$ process, Add $invertPairs=0$ to the first line. And add $invertPairs=invertPairs+n_1-i+1$ between line 16-17.
+\section{Growth of Functions}
+\subsection*{Exercise 3.1-1}
+The following inequality always holds, $\frac{f(n)+g(n)}{2}\le \max(f(n),g(n))\le f(n)+g(n)$, which proves $\max(f(n),g(n))=\Theta(f(n)+g(n))$
+\subsection*{Exercise 3.1-2}
+Since $(n+a)^b=\sum\limits_{k=0}^b C^k_b n^{b-k}a^k=n^b+\sum\limits_{k=1}^b C^k_b n^{b-k}a^k$, and $n^b\le n^b+\sum\limits_{k=1}^b C^k_b n^{b-k}a^k\le (1+b)n^b$, $a$ and $b$ are constants. If we set $c_1=1$ and $c_2=(1+b)$, we have $(n+a)^b=\Omega(n^b)$ and $(n+a)^b=O(n^b)$.
+\subsection*{Exercise 3.1-3}
+At least is meaningless.
+\subsection*{Exercise 3.1-4}
+Yes. No.
+\subsection*{Exercise 3.1-5}
+Three inequality. (1)$c_1g(n)\le f(n)\le c_2g(n)$ and (2)$c_1g(n)\le f(n)$ and (3)$f(n)\le c_2g(n)$, (1)holds can prove(2) and (3). (2) and (3) hold at the same time can prove(1).
+\subsection*{Exercise 3.1-6}
+Let $f(n)$ be the running time. worst-case running time equal to $O(g(n))$ means $f(n)\le c_1g(n)$, best-case running time equal to $\Omega(g(n))$ means $c_2g(n)\le f(n)$, then followed by 3.1-5.
+\subsection*{Exercise 3.1-7}
+$f(n)=o(g(n))$ means for any constant c, $f(n) < cg(n)$, $f(n)=\omega(g(n))$ means for any constant c, $f(n) > cg(n)$. Obviously, there is no $f(n)$ such that satisfies two conditions at the same time.
+\subsection*{Exercise 3.1-8}
+$f(n,m)=\Theta(g(n,m))$, there exist positive $c_1, c_2, n_0, m_0$ such that $c_1g(n,m)\le f(n,m)\le c_2g(n,m)$ for all $n\ge n_0$ and $m\ge m_0$.$f(n,m)=\Omega(g(n,m))$, there exist positive $c, n_0, m_0$ such that $cg(n,m)\le f(n,m)$ for all $n\ge n_0$ and $m\ge m_0$.
+\subsection*{Exercise 3.2-1}
+If $n_1 < n_2$, then $f(n_1) < f(n_2)$ and $g(n_1) < g(n_2)$ hold. Obviously, $f(n_1)+g(n_1) < f(n_2)+g(n_2)$ and $f(g(n_1)) < f(g(n_2))$ hold. If $f(n)\ge 0$ and $g(n)\ge 0$, then $f(n_1)\cdot g(n_1) < f(n_2)\cdot g(n_2)$.
+\subsection*{Exercise 3.2-2}
+$a^{\log_bc}=a^{\log_ac/\log_ab}=(a^{\log_ac})^{1/\log_ab}=c^{1/\log_ab}=c^{\log_ba}$
+\subsection*{Exercise 3.2-3}
+$\lg(n!)=\lg1+\lg2+...+\lg{n}\le cn\lg{n}=O(n\lg{n})$. If set $c < 1$, then $(1-c)\lg{n}\ge \lg{e}$ holds for some positive $n_0$ when $n\ge n_0$. So $n\lg(n/e)\ge cnlgn$, and $\lg\sqrt{2\pi n}+\lg(n/e)^n+\lg(1+\Theta(1/n))\ge cn\lg{n}$, by Stirling's approximation, $\lg(n!)=\Omega(n\lg{n})$, we prove that $\lg(n!)=\Theta(n\lg{n})$. Also, by Stirling's approximation, we can prove $n!=\omega(2^n)$ and $n!=o(n^n)$.
+\subsection*{Exercise 3.2-4}
+The former is but the latter is not. By Stirling's approximation, we have $\sqrt{2\pi f(n)}(f(n)/e)^{f(n)}(1+\Theta (1/\lg{n}))$, we only need to prove $f(n)=\lg{n}^{\lg{n}}$ is polynomial bound  and $g(n)=\lg\lg{n}^{\lg\lg{n}}$ is not. $\lim\limits_{n\to\infty}\frac{\lg\lg n}{k}=\infty\Leftrightarrow\lim\limits_{n\to\infty}\frac{\lg f(n)}{k\lg n}=\infty\Leftrightarrow\lim\limits_{n\to\infty}\frac{f(n)}{n^k}=\infty$. Which implies $f(n)$ is not polynomial bound. And using a similar process can prove $g(n)$ is polynomial bound.
+\subsection*{Exercise 3.2-5}
+$\lg^*\lg m$ is larger. Suppose we have $m=2^{2^2...}$, where the number of 2 is k. $\lg^*\lg{m}=\lg{k}$ and $\lg\lg^*m=k-1$, we can also prove the integer with number of 2 between $k$ and $k+1$ are true. which mean $\lg^*\lg{m}=o(lgk)$ and $\lg\lg^*m=\omega(k)$. So the former expression is larger.
+\subsection*{Exercise 3.2-6}
+$\phi^2=((1-\sqrt{5})/2)^2=(1-2\sqrt{5}+5)/4=(1-\sqrt{5})/2+1$, its conjugate is the same.
+\subsection*{Exercise 3.2-7}
+$F_1=1$ is correct for $i=1$.By strong induction, the equality of $F_i$ holds for any $i\le j-1$ and $F_{j}=F_{j-1}+F_{j-2}=(\phi^{j-1}-\phi'^{j-1})/\sqrt{5}+(\phi^{j-2}-\phi'^{j-2})/\sqrt{5}=(\phi^{j-2}(\phi+1)-\phi'^{j-2}(\phi'+1))/\sqrt{5}$, by the equality in Exercise 3.2-6, we have $F_{j}=(\phi^j+\phi'^j)/\sqrt{5}$
+\subsection*{Exercise 3.2-8}
+Suppose $k=\Theta(n/lnn)$, then (1)$c_1n/lnn\le k\le c_2n/lnn$ and (2)$ln(c_1n/lnn)\le lnk\le ln(c_2n/lnn)$, (1)$\cdot$(2) will prove that there exist $c_1$ and $c_2$ such that $c_1n\le klnk\le c_2n$.
+\subsection*{Problem 3-1}
+\textbf{a.} Let $c=d+1$, we will get $p(n)\le cn^k$\\
+\textbf{b.} Let $c=a_d$, we will get $p(n)\ge cn^k$\\
+\textbf{c.} Let $c_1=a_d$ and $c_2=d+1$, we will get $c_1n^k\le p(n)\le c_2n^k$\\
+\textbf{d.} and \textbf{e.} Same as \textbf{a.} and \textbf{b.}
+\subsection*{Problem 3-2}
+\begin{tabular}{|c|c|c|c|c|}\hline
+No & Yes & No & No & No\\ \hline
+No & Yes & No & No & No\\ \hline
+No & No & No & No & No\\ \hline
+No & No & No & Yes & No\\ \hline
+Yes & No & Yes & No & Yes\\ \hline
+Yes & No & Yes & No & Yes\\ \hline
+\end{tabular}
+\subsection*{Problem 3-3}
+\textbf{a.} $2^{2^{n+1}}=\Theta(2^{2^n})=\Omega((n+1)!)=\Omega(n!)=\Omega(n2^n)=\Omega(2^n)=\Omega(e^n)=\Omega((3/2)^n)=\Omega(n^{\lg\lg n})=\Omega((\lg n)!)=\Omega(n^3)=\Omega(4^{\lg n})=\Theta(n^2)=\Omega(n\lg n)=\Theta(\lg n!)=\Omega(n)=\Theta(2^{\lg n})=\Omega(\sqrt{2}^{\lg n}=\Omega(2^{\sqrt{2\lg n}})=\Omega(\lg^2n)=\Omega(\ln n)=\Omega(\sqrt{\lg n})=\Omega(\ln\ln n)=\Omega(2^{\lg^*n})=\Omega(\lg^*n)=\Omega(\lg^*\lg n)=\Omega(\lg\lg^*n)=\Omega(n^{1/\lg n})=\Theta(1)$\\
+\textbf{b.}
+\(
+f(n)=\left\{
+\begin{array}{rr}
+g_1(n)\qquad \mbox{if $n\%30=1$}\\
+g_2(n)\qquad \mbox{if $n\%30=2$}\\
+...\\
+g_{30}(n)\qquad \mbox{if $n\%30=0$}\\
+\end{array}\right.
+\)
+\subsection*{Problem 3-4}
+\textbf{a.} $g(n)=n^{\sin n}$,$f(n)=n$ is a counter-example.\\
+\textbf{b.} $f(n)=n$,$g(n)=n^2$ is a counter-example.\\
+\textbf{c.} $f(n)=O(g(n))\implies f(n)\le cg(n)\implies lg(f(n))\le lg(cg(n))=lgc + lg(g(n))\implies lg(f(n))=O(lg(g(n)))$\\
+\textbf{d.} $f(n)=n$ and $g(n)=2n$ is a counter-example.\\
+\textbf{e.} $f(n)=\frac{1}{n}$ is a counter-example.\\
+\textbf{f.} $f(n)=O(g(n))\implies f(n)\le cg(n)\implies g(n)\ge (1/c)f(n)\implies g(n)=\Omega(f(n))$\\
+\textbf{g.} $f(n)=a^n$, where $a$ is the constant\\
+\textbf{h.} let $f(n)=n$, $n+n^2\ne \Theta(n)$
+\subsection*{Problem 3-5}
+\textbf{a.} We need to prove if $f(n)=O(g(n))$ doesn't hold, we must have $f(n)=\overset{\infty}{\Omega}(g(n))$. If $f(n)\ne O(g(n))$, there is not any constant $c>0$, which satisfies $f(n)\le cg(n)$ for all $n>n_0$. So for any constant $c>0$ and $n_0>0$, we can always find an $n>n_0$ and make $f(n)\ge cg(n)\ge0$(both $f(n)$ and $g(n)$ are non-negative). For example, we find $n_1>n_0$ which let the inequality founds, then we can find $n_2>n_1$ and make this process infinitely. Which means $f(n)=\overset{\infty}{\Omega}(g(n))$ holds. An counter-example of using $\Omega$, $f(n)=n^{\sin n}$ and $g(n)=n^{\cos n}$\\
+\textbf{b.} The advantage is giving us a bound easily. The disadvantage is, the bound is not strict\\
+\textbf{c.} Nothing happens.\\
+\textbf{d.} $\overset{\sim}{\Omega}(g(n))=\{f(n)$:there exist positive constants $c,k$ and $n_0$ such that $cg(n)lg^k(n)\le f(n)$ for all $n\ge n_0\}$ $\overset{\sim}{\Theta}(g(n))=\{f(n)$:there exist positive constants $c_1,c_2,k$ and $n_0$ such that $0\le c_1g(n)lg^k(n)\le f(n)\le c_2g(n)lg^k(n)$ for all $n\ge n_0\}$.
+\subsection*{Problem 3-6}
+\textbf{a.}$n$\\
+\textbf{b.}$\lg^*n$\\
+\textbf{c.}$\lceil \lg n\rceil$\\
+\textbf{d.}$\lfloor \lg n\rfloor$\\
+\textbf{e.}$\lg\lg{n}$\\
+\textbf{f.}$\infty$\\
+\textbf{g.}$\frac{\lg\lg n}{\lg3}$\\
+\textbf{h.}2
+\section{Probabilistic Analysis and Randomized Algorithms}
+\subsection*{Exercise 5.1-1}
+If a candidate $a$ is better than $b$, than any candidate $x$ better than $a$ is also better than $b$. And any candidate worse than $b$ is worse than $a$. Such than any pair of the candidate set can be compared, which implies the rank of the candidates are in total order.
+\subsection*{Exercise 5.1-2}
+Use the binomial representation $x$ of the number $b-a+1$, suppose the bit length of $x$ is $L_x$, we repeat $L_x=\lg(b-a+1)$ iterations of $\proc{Random($0,1$)}$. And if we get a binomial number $n$, which is larger than $b-a+1$, we throw the result and do the iterations again. The expected running time is $\frac{1}{Pr\{n\le b-a+1\}}\cdot O(\lg(b-a+1))$. The $Pr\{n\le b-a+1\}$ is at most $1-(1/2)^{\lg(b-a+1)}=(b-a)/(b-a+1)$, such that the expected running time is $O((b-a+1)/(b-a)\cdot\lg(b-a+1))$
+\subsection*{Exercise 5.1-3}
+We run $\proc{Biased-Random}$ twice. And set $I=\{$output sequence is 0 and 1, output sequence is 1 and 0$\}$, the appearance probability of these two events are both $1/2$ in the total set $I$. If we get the output sequence which is not in $I$, we rerun the procedure until we get the event in $I$. Assume the random variable $X_i$ indicates the $i$th round result of $\proc{Biased-Random}$. Then the expected running time is $1/Pr\{X_1X_2\in I\}=\frac{1}{2p(1-p)}$
+\subsection*{Exercise 5.2-1}
+If the best candidate is the first, we will hire exact one time. Its probability is $1/n$. If the candidates appear from worst to best, we will hire exactly n time, the probability is $1/n!$
+\subsection*{Exercise 5.2-2}
+Since candidate $1$ will be always hired. We denote $X_i$ as the indicator that only the candidate $1$ and candidate $i$ are hired(where $i>1$). Which means, candidate $1$ is the best candidate in $[1,i-1]$ and candidate $i$ is the best in $[1,n]$. So $Pr\{X_i\}=\frac{1}{i-1}\cdot\frac{1}{n}$. Since $X_i$ is independent for different $i$, we have the total probability $Pr\{x\}=\sum\limits_{i=2}^{n}Pr\{X_i\}=\sum\limits_{i=2}^{n}\frac{1}{i-1}\cdot\frac{1}{n}=\frac{1}{n}\cdot\sum\limits_{i=2}^{n}\frac{1}{i-1}=\frac{1}{n}\cdot{H_{n-1}}$
+\subsection*{Exercise 5.2-3}
+Denote $X_{ij}$ as the dice $i$ has sum $j$. We have the expected total sum $E[X]=\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{6}E[X_{ij}]=\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{6}(j/6)=21n/6$
+\subsection*{Exercise 5.2-4}
+Denote $X_i$ as the event that people $i$ get his/her hat. $E[X_i]=1/n$, and $X_i$ is independent for different $i$, we have $\sum\limits_{i=1}^{n}E[X_i]=1$
+\subsection*{Exercise 5.2-5}
+Denote $X_{ij}$ as the event that $i<j$ and $A[i]>A[j]$, since $A$ form a uniform random permutation, $E[X_{ij}]=Pr\{X_{ij}\}=1/2$, then we have the expected number of inversions $E[X]=\sum\limits_{i=1}^{n-1}\sum\limits_{j=i+1}^{n}E[X_{ij}]=\sum\limits_{i=1}^{n-1}\sum\limits_{j=i+1}^{n}(1/2)=n(n-1)/4$
+\subsection*{Exercise 5.3-1}
+\begin{codebox}
+\Procname{$\proc{Randomized-In-Place'($A$)}$}
+\li $n=A.length$
+\li swap $A[1]$ with $A[\proc{Random($i,n$)}]$
+\li \For $i=2$ \To $n$
+\li \quad swap $A[2]$ with $A[\proc{Random($i,n$)}]$
+\end{codebox}
+In \textbf{Initialization}, before the first loop iteration, $A[1]$ contains 1-permutation with probability $1/n$.
+\subsection*{Exercise 5.3-2}
+No. For input sequence $<1,2,3>$, $\proc{Permute-Without-Identity}$ can not produce the sequence $<1,3,2>$
+\subsection*{Exercise 5.3-3}
+No. For input sequence $<1,2,3>$, if the code produce a uniform random permutation, we have the probability $1/3!=1/6$ to get some specified output. But for $\proc{Permute-With-All}$, it can only produce any permutation with some multiple of probability $\frac{1}{3}\cdot\frac{1}{3}\cdot\frac{1}{3}=\frac{1}{27}$. And $1/6$ can't be divided by $1/27$, such that this code does not produce uniform random permutation.
+\subsection*{Exercise 5.3-4}
+For input $<1,2,3>$,$\proc{Permute-By-Cyclic}$ can't produce permutation $<2,1,3>$
+\subsection*{Exercise 5.3-5}
+There are $C_{n^3+n-1}^{n}$ ways to put $n$ numbers to $n^3$ slots.. And there are $C_{n^3}^{n}$ ways to put $n$ numbers to $n$ distinct slots in $n^3$ candidates. Such that the probability is $\frac{C_{n^3}^{n}}{C_{n^3+n-1}^{n}}$
+\subsection*{Exercise 5.3-6}
+$\proc{Permute-By-Sorting}$ once again.
+\subsection*{Exercise 5.3-7}
+\textbf{loop invariant: }All the element in $S[1...n-m+i]$ will be chosen to $i$ subset in round $i$ in $\proc{Random-Sample}$ with probability $\frac{i}{n-m+i}$.\\
+\textbf{Initialization: }In round 1, any element in $S[1...n-m+1]$ can be chosen, each with probability $\frac{1}{n-m+1}$\\
+\textbf{Maintenance: }Before $i$th iteration, $S[1...n-m+i-1]$ will be chosen to $i-1$ subset with probability $\frac{i-1}{n-m+i-1}$. And In $i$th iteration, the probability of choosing $S[n-m+i]$ is $\frac{1}{n-m+i}+\frac{i-1}{n-m+i}=\frac{i}{n-m+i}$, each of the $S[1...n-m+i-1]$ could be chosen with probability \\ $\frac{i-1}{n-m+i-1}+(1-\frac{i-1}{n-m+i-1})\cdot\frac{1}{n-m+i}=\frac{i}{n-m+i}$, such that all in $S[1...n-m+i]$ has probability $\frac{i}{n-m+i}$.\\
+\textbf{Termination: }It ends after $m$th iteration, so all the elements in $S[1...n]$ will be chosen to $m$ subset with probability $\frac{n}{m}$.
+\subsection*{Exercise 5.4-1}
+Suppose there are $k$ people in the room except you. Let $X_i$ denote the event that the birthday of $i$th people is the same as yours. $Pr[x]=\sum\limits_{i=1}^kPr[X_i]=k\cdot\frac{1}{365}=\frac{k}{365}\ge\frac{1}{2}$, $k\ge\frac{365}{2}$. Let $Y$ denote the event that there is only one person which has birthday of July 4. Let $Z$ denote the event that all people are not July 4 birthday. $1-Pr[Y]-Pr[Z]=1-\frac{k}{365}\cdot(\frac{364}{365})^k-(\frac{364}{365})^k\ge\frac{1}{2}$, $k>611$
+\subsection*{Exercise 5.4-2}
+Let $X_i$ denote the event that when we toss $i$th balls, we get some bin which contains two balls. $Pr[X_i]=(\prod\limits_{k=0}^{i-1}\frac{b-k}{b})\cdot\frac{i-1}{b}\le e^{\frac{-i(i-1)}{2b}}\cdot\frac{i-1}{b}$. By the pigeon hole principle, we know if we toss $b+1$ balls, we necessarily get some bin with two balls. So the expected number of ball tossed is $\sum\limits_{i=2}^{b}i\cdot Pr[X_i]=\sum\limits_{i=2}^{b}i\cdot(\prod\limits_{k=0}^{i-1}\frac{b-k}{b})\cdot\frac{i-1}{b}$
+\subsection*{Exercise 5.4-3}
+Pairwise independence is sufficient, for equality $E[X]=\sum\limits_{i=1}^{n}\sum\limits_{j=i+1}^{n}X_{ij}$, we needn't consider the independence for different $i,j$. And for any specified $i,j$, their birthday is pairwise independent, such that $E_{ij}=\frac{1}{n}$.
+\subsection*{Exercise 5.4-4}
+Let $X_{ijk}$ denote the event that person i, j and k have the same birthday. And $E[X_{ijk}]=\frac{1}{365^2}$, for $n$ people, $E[X]=\sum\limits_{i=1}^{n}\sum\limits_{j=i+1}^{n}\sum\limits_{k=j+1}^{n}E[X_{ijk}]=\frac{1}{365^2}\sum\limits_{i=1}^{n}\sum\limits_{j=i+1}^{n}\sum\limits_{k=j+1}^{n}1=\frac{1}{2\cdot365^2}\cdot\sum\limits_{i=1}^{n-2}i(i+1)\le\frac{1}{2\cdot365^2}\cdot(\frac{(n-2)^3}{3}-\frac{1}{3}+\frac{(n-1)(n-2)}{2})$. To make $E[X]\ge1$, $n\ge95$
+\subsection*{Exercise 5.4-5}
+The probability of forming a $k$-permutation is $1\cdot\frac{n-1}{n}\cdot...\cdot\frac{n-k+1}{n}=\prod\limits_{i=0}^{k-1}\frac{n-i}{n}\le e^{-k(k-1)/2n}$. Same as the probability that $k$ people which has the same birthday in $n$ people.
+\subsection*{Exercise 5.4-6}
+Let random indicator variable $X_i$ denote after $n$ tossed, the $i$th bin is empty. Such that $E[X_i]=Pr[X_i]=(1-1/n)^n\le\frac{1}{e}$, $E[X]=\sum\limits_{i=1}^nE[X_i]\le\frac{n}{e}$. Let random indicator variable $Y_i$ denote after $n$ tossed, the $i$th bin has exactly one ball. And $E[Y_i]=Pr[Y_i]=C_n^1\cdot(1-\frac{1}{n})^{n-1}\cdot\frac{1}{n}=(1-\frac{1}{n})^{n-1}\le\frac{1}{e}\cdot(1-\frac{1}{n})^{-1}$, $E[Y]=\sum\limits_{i=1}^nE[Y_i]\le\frac{n}{e}\cdot(1-\frac{1}{n})^{-1}=\frac{n^2}{e(n-1)}$
+\section{Heaps}
+\subsection*{Exercise 6.1-1}
+\textbf{minimum:} $2^h$\\
+\textbf{maximum:} $2^{h+1}-1$
+\subsection*{Exercise 6.1-2}
+Assume the height is $x$, the inequality $2^x\le 2^{x+1}-1\implies \lg(n+1)-1\le x\le \lg n$, we have $x=\lfloor \lg n\rfloor$
+\subsection*{Exercise 6.1-3}
+Just because $i\ge max(i.left,i.right)$ hold.
+\subsection*{Exercise 6.1-4}
+It could be any leaf node.
+\subsection*{Exercise 6.1-5}
+No. An example:$1,3,2$
+\subsection*{Exercise 6.1-6}
+No.
+\subsection*{Exercise 6.1-7}
+If a node $i$ is a leaf node, then we have $2i+1>n$, such that $i>(n-1)/2$, which means the minimum index of leaf node is $\lfloor n/2\rfloor+1$
+\subsection*{Exercise 6.2-1}
+Swap 3 and 10. Swap 3 and 9.
+\subsection*{Exercise 6.2-2}
+\begin{codebox}
+\Procname{$\proc{Max-Heapify($A, i$)}$}
+\li $l=\proc{Left}(i)$
+\li $r=\proc{Right}(i)$
+\li \If $l\le A.heap-size$ and $A[l]<A[i]$
+\li \quad $min=l$
+\li \textbf{else} $min=i$
+\li \If $r\le A.heap-size$ and $A[r]<A[min]$
+\li \quad $min=r$
+\li \If $min\ne i$
+\li \quad exchange $A[i]$ with $A[min]$
+\li \quad $\proc{Max-Heapify($A, min$)}$
+\end{codebox}
+Running time is the same.
+\subsection*{Exercise 6.2-3}
+It returns directly.
+\subsection*{Exercise 6.2-4}
+The current node is leaf such that it returns.
+\subsection*{Exercise 6.2-5}
+\begin{codebox}
+\Procname{$\proc{Max-Heapify-Iterative($A$)}$}
+\li $i=1$
+\li $l=\proc{Left}(i)$
+\li $r=\proc{Right}(i)$
+\li \textbf{while} True:
+\li \quad \If $l\le A.heap-size$
+\li \qquad \If $A[l]<A[i]$ $min=l$
+\li \qquad \textbf{else} $min=i$
+\li \quad \textbf{else if} $l>A.heap-size$
+\li \qquad \textbf{break}
+\li \quad \If $r\le A.heap-size$
+\li \qquad \If $A[r]<A[min]$ $min=r$
+\li \quad \If $min\ne i$
+\li \qquad exchange $A[i]$ with $A[min]$
+\li \qquad $i=min$
+\li \quad \textbf{else}
+\li \qquad \textbf{break}
+\end{codebox}
+\subsection*{Exercise 6.2-6}
+The n-element heap has height $\lfloor \lg{n}\rfloor$, if max heapify do the swap for all the elements on the path, it will cost $O(\lfloor \lg{n}\rfloor)$
+\subsection*{Exercise 6.3-1}
+Swap 10 and 22. Swap 17 and 19. Swap 3 and 84. Swap 5 and 84, then swap 5 and 22, finally swap 5 and 10.
+\subsection*{Exercise 6.3-2}
+A counter example, $5,3,17,10,84$. After we do the max heapify from 1 to $\lfloor A.length/2\rfloor$, the array is $17,84,5,10,3$, which is not a max heap.
+\subsection*{Exercise 6.3-3}
+Note that the leaf node has height 0. As we know, the leaf node of a binary tree will be less than $\lceil n/2\rceil$. And the max node number of each level will be at most half of the next level, such that $\lceil n/2^{h+1}\rceil$ holds.
+\subsection*{Exercise 6.4-1}
+After building max heap, the array is $25,13,20,8,7,17,2,5,4$  25 will be the top, swap 4 and 25, and do the max heapify, the array is $20,13,17,8,7,4,2,5,25$. (Skip the rest.)
+\subsection*{Exercise 6.4-2}
+\textbf{Initialization:} Before the first iteration, $A[1..n]$ is a max heap and $A[n+1..n]$ which has no elements.\\
+\textbf{Maintenance:} Before the iteration $i=k$, $A[1..k]$ is a max-heap. And $A[k+1..n]$ contains the $n-k$ largest elements. After this iteration, $A[k]$ is the max element in the subarray $A[1..k]$, such that $A[k..n]$ contains the $n-k+1$ largest elements. And $A[1..k]$ keeps the max-heap property because we do the max heapify.\\
+\textbf{Termination:} Before $i=1$, $A[2..n]$ contains the $n-1$ largest elements, which means $A[1..n]$ has been sorted.
+\subsection*{Exercise 6.4-3}
+\textbf{Increasing order:} Consider the $n/2$ leaf nodes which are in increasing order. After the first $n/2$ iteration of build-max-heap procedure, there are $n/4$ elements got promotion, which means their height will be decrease one. And in these $n/4$ elements, at least half of them will keep their position until the build-max-heap finished, because the node is in increasing order. Such that we have $n/8$ elements have height $\lfloor\lg{n}\rfloor-1$ or $\lfloor\lg{n}\rfloor-2$. And in the max-heapify procedure, in order to let these node to the top level, it will cost at least $(n/8)\cdot (\lfloor\lg{n}\rfloor-2)$ to move them, such that the running time is $O(nlgn)$\\
+\textbf{Decreasing order:} After the build-max-heap procedure, the array is in the original order. And each time we exchange $A[1]$ with $A[i]$, because $A[i]$ is the smallest element, so it must be down to the leaf of the current heap, such that the running time is $O(\lg{i})$. Such that the total running time is $O(nlgn)$
+\subsection*{Exercise 6.4-4}
+The worst-running time of building max heap is $\Omega(n)$. And if the worst running time of max-heapify is $\Omega(lgn)$, after $n-1$ iterations, the worst running time is $\Omega(nlgn)$
+\subsection*{Exercise 6.4-5}
+See the paper of Sedgwick.
+\subsection*{Exercise 6.5-1}
+extract 15. Move 1 to top. Swap 1 and 13, swap 1 and 12, swap 1 and 6. This is the first iteration.(skip the rest)
+\subsection*{Exercise 6.5-2}
+Insert 10 into the right child of 8, swap 10 and 8, swap 10 and 9.
+\subsection*{Exercise 6.5-3}
+\begin{codebox}
+\Procname{$\proc{Heap-Minimum($A$)}$}
+\li \Return $A[1]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Heap-Extract-Min($A$)}$}
+\li \If $A.heap-size<1$
+\li \quad \Return "heap underflow"
+\li $min=A[1]$
+\li $A[1]=A[A.heap-size]$
+\li $\proc{Min-Heapify($A,1$)}$
+\li \Return $min$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Heap-Decrease-Key($A,i,key$)}$}
+\li \If $key>A[i]$
+\li \quad \textbf{error} "new key is larger than current key"
+\li $A[i]=key$
+\li \While $i>1$ and $A[Parent(i)]>A[i]$
+\li \quad exchange $A[i]$ with $A[Parent[i]]$
+\li \quad $i=Parent(i)$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Min-Heap-Insert($A,key$)}$}
+\li $A.heap-size=A.heap-size+1$
+\li $A[A.heap-size]=-\infty$
+\li $\proc{Heap-Decrease-Key($A,A.heap-size,key$)}$
+\end{codebox}
+\subsection*{Exercise 6.5-4}
+Because if not, $\proc{Heap-Increase-Key}$ will return error.
+\subsection*{Exercise 6.5-5}
+\textbf{Initialization:} Before the first loop, $A[1...A.heap-size]$ is a max heap.Since we only increase $A[i]$ and all the other elements are original value, which means except the case $A[i]$ maybe larger than its parent. All the other elements are keep in max-heap order.\\
+\textbf{Maintenance:} Before each iteration, the subtree rooted at $A[i]$ is a max heap. And after we change the order of $A[i]$ and its parent, the subtree rooted at $A[parent(i)]$ still be a max heap. Because we only swap $i$ and its parent, and the other nodes do not changed. Such that the entire array are in max heap order.\\
+\textbf{Termination:} When the loop ended, $A$ is a max heap.
+\subsection*{Exercise 6.5-6}
+\begin{codebox}
+\Procname{$\proc{Heap-Increase-Key($A,i,key$)}$}
+\li \If $key<A[i]$
+\li \quad \textbf{error} "new key is smaller than current key"
+\li $key=A[i]$
+\li \While $i>1$ and $A[Parent(i)]<key$
+\li \quad $A[i]=A[Parent[i]]$
+\li \quad $i=Parent(i)$
+\li $A[i]=key$
+\end{codebox}
+\subsection*{Exercise 6.5-7}
+Use a min heap. And we assign the first element we want to push it to the heap with priority 1, and each time we insert new element to the heap. We increase its priority with one. Since the priority of older element is always smaller than new element, it will be extracted early, we get a FIFO queue. If each time we insert new element to the heap, we decrease its priority with one, then the priority of older element is always larger than the new, such that it will be extracted later, we get a stack.
+\subsection*{Exercise 6.5-8}
+\begin{codebox}
+\Procname{$\proc{Heap-Delete($A,i$)}$}
+\li exchange $A[i]$ with $A[A.heap-size]$
+\li $A[A.heap-size]=A[A.heap-size]-1$
+\li $\proc{Max-Heapify($A,i$)}$
+\end{codebox}
+\subsection*{Exercise 6.5-9}
+We build a min heap with the first elements of $k$ sorted array. The node contains two fields, its value and the array index(from 1 to k). This step takes $O(k)$. And each time we extract the top element, we assign the top node with the element which has the same array index as last extracted node. Then we do the procedure min heapify. And this loop takes $O((n-k)\lg{k})$, we get the first $n-k$ smallest element. In the end, we use the procedure $\proc{Heap-Sort}$(we don't use the \proc{Build-Max-heap}) to get the last $k$ largest element, it will take $O(k\lg{k})$. The total procedure costs $O(n\lg{k})$
+\subsection*{Problem 6-1}
+\textbf{a.} No,they didn't. Consider the case $1,2,3,4,5$, $\proc{Build-Max-Heap}$ will create a max heap $5,4,3,1,2$, and $\proc{Build-Max-Heap'}$ will create a max heap $5,4,2,1,3$\\
+\textbf{b.} The worst case occurs we swap all the elements from the path of leaf to root when we do the $\proc{Max-Heap-Insert}$. The entire procedure will cost $\sum_{i=2}^n\lg{i}=\lg{n!}=\Theta(n\lg{n})$
+\subsection*{Problem 6-2}
+\textbf{a.} Same as binary heap. In BFS order, from left to right.\\
+\textbf{b.} $\lfloor\log_d(nd-n)\rfloor$\\
+\textbf{c.}
+\begin{codebox}
+\Procname{$\proc{Children($A,i,d$)}$}
+\li $k=d(i-1)+2$
+\li \Return $A[k...min(A.length,k+d-1)]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Parent($A,i,d$)}$}
+\li \Return $\lfloor(i-2)/d\rfloor+1$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Max-Heapify($A,d$)}$}
+\li $i=1$
+\li \textbf{while} True:
+\li \quad $max=c$ where c is the index of max element in $\proc{Children($A,i,d$)}$
+\li \quad \If $\proc{Children($i,d$)}=Nil$ \textbf{break}
+\li \quad \textbf{else if} $A[max]>A[i]$
+\li \qquad swap $A[max]$ and $A[i]$
+\li \qquad $i=max$
+\li \quad \textbf{else} \textbf{break}
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Extract-Max($A,d$)}$}
+\li \If $A.heap-size<1$
+\li \quad \Return "heap underflow"
+\li $max=A[1]$
+\li $A[1]=A[A.heap-size]$
+\li $\proc{Max-Heapify($A,1$)}$
+\li \Return $max$
+\end{codebox}
+$\proc{Max-Heapify}$ takes $O(d\cdot\lfloor\log_d(nd-n)\rfloor)$. So the $\proc{Extract-Max}$ is the same running time.\\
+\textbf{e.}
+\begin{codebox}
+\Procname{$\proc{Increase-Key($A,i,k$)}$}
+\li \If $k<A[i]$
+\li \quad \textbf{error} "new key is smaller than current key"
+\li $k=A[i]$
+\li \While $i>1$ and $\proc{Parent($A,i,d$)}<k$
+\li \quad $A[i]=A[Parent[i]]$
+\li \quad $i=Parent(i)$
+\li $A[i]=k$
+\end{codebox}
+Running time is the height of heap at most, which is $O(\lfloor\log_d(nd-n)\rfloor)$.\\
+\textbf{d.}
+\begin{codebox}
+\Procname{$\proc{Insert-Key($A,k$)}$}
+\li $A.heapSize=A.heapSize+1$
+\li $A[A.heapSize]=-\infty$
+\li $\proc{Increase-Key($A,A.heapSize,k$)}$
+\end{codebox}
+Running time is the same as $\proc{Increase-Key}$
+\subsection*{Problem 6-3}
+\textbf{a.}\\
+\begin{tabular}{|c|c|c|c|}\hline
+2 & 4 & 9 & $\infty$\\ \hline
+3 & 8 & 16 & $\infty$\\ \hline
+5 & 14 & $\infty$ & $\infty$\\ \hline
+12 & $\infty$ & $\infty$ & $\infty$\\ \hline
+\end{tabular}\\
+\textbf{b.} $Y[1,1]$ is the smallest element in the first line, such that $Y[1,2...n]$ are all $\infty$. At the same time, they are the smallest elements in the corresponding rows, such that $Y[1...m,1...n]$ are all $\infty$. The table is empty. We can do the same argue for the case of $Y[m,n]\ne\infty$ to prove its a full table.\\
+\textbf{c.}
+\begin{codebox}
+\Procname{$\proc{Extract-Min-Aux($Y,i,j$)}$}
+\li $minX=i$
+\li $minY=j$
+\li \If $i+1\le m$ and $Y[i+1,j]<Y[i,j]$
+\li \quad $minX=i+1$
+\li \quad $minY=j$
+\li \If $j+1\le n$ and $Y[i,j+1]<Y[minX,minY]$
+\li \quad $minX=i$
+\li \quad $minY=j+1$
+\li \If $minX\ne i$ and $minY\ne j$
+\li \quad Swap $Y[i,j]$ and $Y[minX,minY]$
+\li \quad $\proc{Extract-Min-Aux($Y,minX,minY$)}$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Extract-Min($Y$)}$}
+\li $min=Y[1,1]$
+\li $Y[1,1]=\infty$
+\li $\proc{Extract-Min-Aux($Y,1,1$)}$
+\li \Return $min$
+\end{codebox}
+$T(p)=T(p-1)+O(1),T(1)=O(1)\implies T(p)=O(p)=O(m+n)$\\
+\textbf{d.}
+\begin{codebox}
+\Procname{$\proc{Pop-Aux($Y,i,j$)}$}
+\li $maxX=i$
+\li $maxY=j$
+\li \If $i-1\ge 1$ and $Y[i-1,j]<Y[i,j]$
+\li \quad $maxX=i-1$
+\li \quad $minY=j$
+\li \If $j-1\ge 1$ and $Y[i,j-1]<Y[minX,minY]$
+\li \quad $minX=i$
+\li \quad $minY=j-1$
+\li \If $maxX\ne i$ and $maxY\ne j$
+\li \quad Swap $Y[i,j]$ and $Y[maxX,maxY]$
+\li \quad $\proc{Pop-Aux($Y,maxX,maxY$)}$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Insert($Y,k$)}$}
+\li $i=1$
+\li $j=1$
+\li \textbf{while} $Y[i,j]\ne \infty$ and $i<m$
+\li \quad $i=i+1$
+\li \textbf{while} $Y[i,j]\ne \infty$ and $j<n$
+\li \quad $j=j+1$
+\li $Y[i,j]=k$
+\li $\proc{Pop-Aux($Y,i,j$)}$
+\end{codebox}
+\textbf{e.}
+Use $\proc{Extract-Min}$ in a $n^2$ size table will take $O(n)$, to extract all $n^2$ elements, we need at most $O(n^3)$.\\
+\textbf{f.}
+Search from the left-bottom position.
+\begin{codebox}
+\Procname{$\proc{Search($Y,k$)}$}
+\li Let $(i,j)$ be the coordinate of element in the left-bottom position.
+\li \If $k>Y[i,j]$ and $j+1\le n$ Search $Y[i,j+1]$ recursively
+\li \textbf{else if} $k<Y[i,j]$ and $i-1\ge 1$ Search $Y[i-1,j]$ recursively
+\li \textbf{else} \Return the current index.
+\end{codebox}
+\section{QuickSort}
+\subsection*{Exercise 7.1-1}
+After the $\proc{Partition}$, the array $A={9,5,8,7,4,2,6,11,21,13,19,12}$
+\subsection*{Exercise 7.1-2}
+\begin{codebox}
+\Procname{$\proc{Partition($A,p,r$)}$}
+\li $x=A[r]$
+\li $i=p-1$
+\li $changed=False$
+\li \textbf{for} $j=p$ \textbf{to} $r-1$
+\li \quad \If $A[j]\le x$
+\li \qquad $i=i+1$
+\li \qquad exchange $A[i]$ with $A[j]$
+\li \qquad \If $A[j]\ne x$
+\li \quad \qquad $changed=True$
+\li exchange $A[i+1]$ with $A[r]$
+\li \If $changed$ is $True$
+\li \quad \Return $i+1$
+\li \textbf{else}
+\li \quad \Return $\lfloor(p+r)/2\rfloor$
+\end{codebox}
+\subsection*{Exercise 7.1-3}
+Line 3 iterates $n-1$ times, and each exchange cost $\Theta(1)$, which causes a $\Theta(n)$ running time.
+\subsection*{Exercise 7.1-4}
+\begin{codebox}
+\Procname{$\proc{Partition($A,p,r$)}$}
+\li $x=A[r]$
+\li $i=p-1$
+\li $changed=False$
+\li \textbf{for} $j=p$ \textbf{to} $r-1$
+\li \quad \If $A[j]\ge x$
+\li \qquad $i=i+1$
+\li \qquad exchange $A[i]$ with $A[j]$
+\li exchange $A[i+1]$ with $A[r]$
+\li \Return $i+1$
+\end{codebox}
+\subsection*{Exercise 7.2-1}
+\textbf{a.} Prove $T(n)=O(n^2)$. We assume $T(n)\le c_1n^2$. Then $T(n)=T(n-1)+\Theta(n)\le c_1(n-1)^2+c_2n=c_1n^2+(c_2-2c_1)n+1$, if we set $c_2<2c_1-1$, we can let the inequality holds.
+\textbf{b.} Prove $T(n)=\Omega(n^2)$. If we set $c_2\ge2c_1$, we can make $c_1(n-1)^2+c_2n=c_1n^2+(c_2-2c_1)n+1\ge c_1n^2$ holds.
+Combine a. and b., $T(n)=\Theta(n^2)$
+\subsection*{Exercise 7.2-2}
+We have $T(n)=T(n-1)+\Theta(n)=\Theta(n^2)$
+\subsection*{Exercise 7.2-3}
+We pick either the largest or the smallest by sequence for each round, we have $T(n)=T(n-1)+\Theta(n)=\Theta(n^2)$
+\subsection*{Exercise 7.2-4}
+In the almost sorted input, $\proc{QuickSort}$ will usually produce a split of $1$ and $n-1$, which will make the total time close to $\Theta(n^2)$. But $\proc{Insertion-Sort}$ tend to make a $\Theta(n)$ running time because we needn't move a lot of elements during each scanning round.
+\subsection*{Exercise 7.2-5}
+To the best case, which corresponds to the minimum level leafs in the node, we always choose the part $\alpha$. Suppose its level is $k$. Such that we have $\alpha^kn=1$, where $k=-\lg{n}/\lg{\alpha}$. To the worst case, we always choose the part $1-\alpha$ such that we have $(1-\alpha)^kn=1$, where $k=-\lg{n}/\lg(1-\alpha)$
+\subsection*{Exercise 7.2-6}
+In order to get a split more balanced than $1-\alpha$ to $\alpha$, we should choose the value between $[\alpha,1/2-\alpha+1/2]$. Since we choose the value randomly, it is uniform distributed in the range $[0,1]$, such that we have the probability of $1/2-\alpha+1/2-\alpha=1-2\alpha$ to get a better balance.
+\subsection*{Exercise 7.3-1}
+Because the worst-case doesn't occur from time to time.
+\subsection*{Exercise 7.3-2}
+The number of calling $\proc{Random}$ is equal to the non-leaf node number of recursion tree. So the best case is $n(\lfloor\lg{n}\rfloor-1)=\Theta(n\lg{n})$. The worst case is $n-1=\Theta(n)$
+\subsection*{Exercise 7.4-1}
+$\max\limits_{0\le q\le n-1}(T(q)+T(n-q-1))+\Theta(n)\ge T(0)+T(n-1)+\Theta(n)=T(n-1)+\Theta(n)=c(\sum_{i=1}^ni)=\Omega(n^2)$
+\subsection*{Exercise 7.4-2}
+The minimum height of the recursion tree is $\lg{n}$, which corresponds to the best case running time $\Omega(n\lg n)$
+\subsection*{Exercise 7.4-3}
+$f(q)=q^2+(n-q-1)^2\implies f'(q)=4q-2n+2$ when $q\in[0,(n-1)/2]$, its first derivative is less than 0, and when $q\in[(n-1)/2,n-1]$, it is larger than 0, which means the value of $f(q)$ achieves the max when $q=0$ or $q=n-1$
+\subsection*{Exercise 7.4-4}
+$E[X]=\sigma_{i=1}^{n-1}\sigma_{k=1}^{n-i}2/(k+1)>\sigma_{i=1}^{n-1}\sigma_{k=1}^{n-i}1/(k+1)\implies$ expected running time is $\Omega(n\lg n)$
+\subsection*{Exercise 7.4-5}
+To sort n/k array with length $k$ by insertion sort, we need $(n/k)\cdot O(k^2)=O(nk)$. And in the recursion tree of quick sort, we just need to pick the first $O(\lg(n/k))$ level to split the array into $n/k$ sub arrays. And this procedure costs $O(n\lg{n/k})$, such that the total running time is $O(nk+n\lg(n/k))$. In theory, if we want to make $c_1(nk+n\lg(n/k))\le c_2n\lg n\implies (k-\lg k)\le (c_2-c_1)\lg n/c_1$. And we can pick $k< (c_2-c_1)\lg n/c_1$ to get a nearly optimal solution. In practice, we just need to get the average running time from statistics, and we can know the bound of k.
+\subsection*{Exercise 7.4-6}
+To get a better approximation than $\alpha$ to $1-\alpha$, we need to pick the partition which from the range $[\alpha, 1-\alpha]$, and we have a chance of $1-2\alpha$ to get such value. Since we must guarantee that this value is in the mid in three rounds, we can pick the value from $[1-\alpha,1]$ and $[0,\alpha]$ (Since it is an approximation so we only need to pick the lower bound), such that we have a chance at least $6(1-2\alpha)\alpha^2$. And at worst, we have the probability of $1-6(1-2\alpha)\alpha^2$ to get an $\alpha$ to $1-\alpha$ partition.
+\subsection*{Problem 7-1}
+\textbf{a.}\\
+1. 6,19,9,5,12,8,7,4,11,2,13,21 $i=1$,$j=11$\\
+2. 6,2,9,5,12,8,7,4,11,19,13,21 $i=2$,$j=10$\\
+3. 6,2,9,5,12,8,7,4,11,19,13,21 $i=10$,$j=9$\\
+\textbf{b.} After the first round, $i=1$ and $j=k$, where $k\ge 1$. If $k=1$, the procedure will return directly and it couldn't access any element outside of the range $[p..r]$. If $k>1$, $i$ will arrive at $k$ and $j$ will arrive at $1$ definitely if the procedure didn't return before it. And in this specify round, $i>j$ hold and the procedure will also return. Such that we also couldn't access any element not in the range.\\
+\textbf{c.} We have prove that $j$ is in the range $[p..r]$ by question b, we only need to prove that $j\ne r$. Suppose we can get $j=r$. After the first round, $i=1$ and $j=r$ must hold. But in the second round, we do $j=j-1$ at first and this will let $j<r$, which cause a contradiction.\\
+\textbf{d.} Suppose the $\proc{Hoare-Partition}$ loops $n$ rounds. Before the $n$th round beginning(which means $i<j$ holds), we can promise that the elements $A[p..i]$ are less than $A[j,r]$ definitely, because all the elements are swapped at most once. Denote the $i$ and $j$ with $i'$ and $j'$. And in the $n$th round, $j$ will never move to the position which is smaller than $i'$. And $i$ will never move to the position which is larger than $j'$. Consider the pointer $j$ first. It will arrive at some position $j=k$, where the elements in $A[k,j']$ are larger than any of the elements in $A[p,i]$. Combine with the previous conclusion, the elements in $A[k,r]$ are larger than the elements in $A[p,i']$. Now we move the pointer $i$, it will stop at some position $i=k'$, where $k'\ge k$ hold(Remember that the procedure ends in this round). If $k'=k$, we have prove the answer. If $k'>k$, the $A[k,k']$ must satisfy the condition $A[i]\ge x$ and $A[i]\le x$ at the same time, which means $A[i]=x$ must hold. And in this case, elements in $A[k+1,r]$ are larger than $A[p,k]$ when $k=j$\\
+\textbf{e.} Replace the $\proc{Partition}$ with $\proc{Hoare-Partition}$ will be ok.
+\subsection*{Problem 7-2}
+\textbf{a.} $\proc{Randomrized-Quicksort}$ will form the recursion $T(n)=T(0)+T(n-1)+\Theta(n)$, such that the running time is $\Theta(n^2)$\\
+\textbf{b.}
+\begin{codebox}
+\Procname{$\proc{Partition'($A,p,r$)}$}
+\li $q=p-1$
+\li $t=p-1$
+\li $pivot=A[r]$
+\li $i=p$
+\li \textbf{while} $i<r$
+\li \quad \If $A[i]<A[r]$
+\li \qquad $t=t+1$
+\li \qquad Swap $A[t]$ and $A[i]$
+\li \qquad $q=q+1$
+\li \qquad Swap $A[i]$ and $A[q]$
+\li \quad \If $A[i]=A[r]$
+\li \qquad $t=t+1$
+\li \qquad Swap $A[t]$ and $A[i]$
+\li Swap $A[t]$ and $A[r]$
+\li \Return $q+1,t$
+\end{codebox}
+\textbf{c.}
+\begin{codebox}
+\Procname{$\proc{QuickSort'($A,p,r$)}$}
+\li \If $p\ge r$
+\li \quad \Return
+\li $q,t=\proc{Partition'($A,p,r$)}$
+\li $\proc{QuickSort'($A,p,q-1$)}$
+\li $\proc{QuickSort'($A,t+1,r$)}$
+\end{codebox}
+\textbf{d.} No, we needn't adjust anything.
+\subsection*{Problem 7-3}
+\textbf{a.} Because we pick the element randomly and the result is uniform distributed. Such that $E[X_i]=1/n$\\
+\textbf{b.} If $X_q=1$, we pick the element in position $q$ and the array will be split into two subarrays with length $q-1$ and $n-q$. The partition procedure will take $\Theta(n)$, such that the equality holds.\\
+\textbf{c.} $E[\Sigma_{q=1}^nX_q(T(q-1)+T(n-q)+\Theta(n))]=(1/n)\cdot \Sigma_{q=1}^n(T(q-1)+T(n-q))+(1/n)\cdot \Sigma_{q=1}^n\Theta(n)=(1/n)\cdot\Sigma(T(0)+T(n-1)+T(1)+T(n-2)+...+T(n-1)+T(0))+(1/n)\cdot n\cdot\Theta(n)=(2/n)\cdot\Sigma(T(0)+T(1)+...+T(n-1))+\Theta(n)=(2/n)\cdot\Sigma(T(2)+T(3)+...+T(n-1))+\Theta(n)$(note that $T(0)$ and $T(1)$ are the lower order of $\Theta(n)$), $(2/n)\cdot\Sigma(T(2)+T(3)+...+T(n-1))+\Theta(n)=(2/n)\cdot\Sigma_{q=2}^{n-1}E[T(q)]+\Theta(n)$\\
+\textbf{d.} $\sum_{k=2}^{n-1}k\lg k=\sum_{k=2}^{\lceil n/2\rceil-1}k\lg k+\sum_{k=\lceil n/2\rceil}^{n-1}k\lg k\le\sum_{k=2}^{\lceil n/2\rceil-1}k\lg(n/2)+\sum_{k=\lceil n/2\rceil}^{n-1}n\lg k=(-1/8)(n^2-2n-8)(1-\lg n)+n[\sum_{k=1}^{n-1}\lg k-\sum_{k=1}^{n/2}\lg k]=(-1/8)(n^2-2n-8)(1-\lg n)+n[n\lg n-(n/2)\lg(n/2)+n/2]\le(-1/8)n^2+(1/2)n^2\lg n$\\
+\textbf{e.} $E[T(n)]=(2/n)\sum_{q=2}^{n-1}E[T(q)]+\Theta(n)\le(2/n)[(-1/8)n^2+(1/2)n^2\lg n]+\Theta(n)=n\lg n-(1/4)n+\Theta(n)\le an\lg n$, when we pick $a>1$.
+\subsection*{Problem 7-4}
+\textbf{a.} line 5 set $p=q+1$, which means the next iteration of \textbf{while} is equal to $\proc{Tail-Recursive-Quicksort($A,q+1,r$)}$\\
+\textbf{b.} When we partition the subarray $(p,r)$, we always get the $q=p+1$, it will cause the stack depth to be $\Theta(n)$\\
+\textbf{c.}
+\begin{codebox}
+\Procname{$\proc{Tail-Recursive-Quicksort($A,p,r$)}$}
+\li \textbf{while} $p<r$
+\li $q=\proc{Partition($A,p,r$)}$
+\li \If $q-p > r-q$
+\li \quad $\proc{Tail-Recursive-Quicksort($A,q+1,r$)}$
+\li \quad $r=q-1$
+\li \textbf{else}
+\li \quad $\proc{Tail-Recursive-Quicksort($A,p,q-1$)}$
+\li \quad $p=q+1$
+\end{codebox}
+\subsection*{Problem 7-5}
+\textbf{a.} $p_i=\frac{i-1}{n}\cdot\frac{1}{n}\cdot\frac{n-i}{n}\cdot P_3=\frac{6}{n^3}(ni-n-i^2+i)$\\
+\textbf{b.} The ordinary implementation chooses $x$ with probability $\frac{1}{n}$. And $p_{(n+1)/2}=\frac{6}{n^3}\frac{(n-1)^2}{4}=\frac{3}{2}\frac{(n-1)^2}{n^3}$. $\lim\limits_{n\to \infty}\frac{\frac{3}{2}\frac{(n-1)^2}{n^3}}{\frac{1}{n}}=\frac{2}{3}$\\
+\textbf{c.} The ordinary implementation will get a "good" split with probability $\sum\limits_{n/3\le i\le 2n/3}{1/n}\approx\frac{1}{3}$. And $\sum\limits_{n/3\le i\le 2n/3}p_i=\frac{6}{n^3}\cdot\sum\limits_{n/3\le i\le 2n/3}(n-i)(i-1)\approx\frac{6}{n^3}\cdot\frac{13n^3}{162}=\frac{39}{81}$. We increase the probability $\frac{4}{27}$\\
+\textbf{d.} For a $\Omega(n\lg n)$ quicksort, the median-of-3 implementation will also give a recursion of $T(n)=T(\alpha n)+T((1-\alpha)n)+\Theta(n)$, which means it only affects the constant factor.
+\subsection*{Problem 7-6}
+\textbf{a.}
+\begin{codebox}
+\Procname{$\proc{FuzzySort($a,b,p,r$)}$}
+\li \If $p\ge r$
+\li \quad \Return
+\li $q=\proc{Partition($a,p,r$)}$
+\li let $\{x\}$ be the pairs which has $a_q<a_i<b_q$
+\li let $\{y\}$ be the pairs which has $a_q<b_i<b_q$
+\li $\proc{FuzzySort($a-\{x\}-\{y\},b,p,q-1$)}$
+\li $\proc{FuzzySort($a-\{x\}-\{y\},b,q+1,r$)}$
+\end{codebox}
+\textbf{b.} $\proc{FuzzySort}$ has the similar time as $\proc{QuickSort}$ except that it get rid of some pairs with specified attribute, so its running time is $\Theta(n\lg n)$. And if the condition in \textbf{b.} holds, line 4 and 5 will remove all the pairs from the original array in the first call of $\proc{FuzzySort}$, which will make its running time be $\Theta(n)$
+\section{Sorting in Linear Time}
+\subsection*{Exercise 8.1-1}
+$n-1$
+\subsection*{Exercise 8.1-2}
+\[\sum_{k=1}^n\lg{k}\ge\int_1^n \lg{k}\,dk=[k\lg{k}]_1^n-\int_1^n k\,d(\lg{k})=n\lg{n}-n=\Omega(n\lg{n})\]
+\subsection*{Exercise 8.1-3}
+For a binary tree with $n!/2$ leaf, its height should be larger than $\lg{n!/2}$, which is not $O(n)$, the same as $n!/n$ or $n!/{2^n}$ leaf.
+\subsection*{Exercise 8.1-4}
+For $k$ specified groups, we have $[(n/k)!]^k$ different leaves. And the height of the tree is $\lg{[(n/k)!]^k}=k\cdot\frac{n}{k}\lg{[(n/k)!]}=\Omega(n\lg\frac{n}{k})$
+\subsection*{Exercise 8.2-1}
+$C=<2,2,2,2,1,0,2>$
+$C=<2,4,6,8,9,9,11>$
+$B=<0,0,1,1,2,2,3,3,4,6,6>$
+\subsection*{Exercise 8.2-2}
+For any pair $A[i]=A[j]$ and $i<j$, line12 ensures that the process will fill in the B with $A[j]$ earlier than $A[i]$
+\subsection*{Exercise 8.2-3}
+The modification do the same thing as the original one, but it will change the order of two identical items, such that it's not stable.
+\subsection*{Exercise 8.2-4}
+Use line 1-9 in $\proc{Counting-Sort}$, now $C[i]$ contains the number of elements less than or equal to $i$. If we want to compute the elements in range $[a,b]$, we just return $C[b]-C[a]$
+\subsection*{Exercise 8.3-1}
+Round1: SEA,TEA,MOB,TAB,DOG,RUG,DIG,BIG,\\BAR,EAR,TAR,COW,ROW,NOW,BOX,FOX\\
+Round2: TAB,BAR,EAR,TAR,SEA,TEA,DIG,BIG,\\MOB,DOG,COW,ROW,NOW,BOX,FOX,RUG\\
+Round3: BAR,BIG,BOX,COW,DIG,DOG,EAR,FOX,\\MOB,NOW,ROW,RUG,SEA,TAB,TAR,TEA
+\subsection*{Exercise 8.3-2}
+Define the structure {number, pos}, if number is equal, sorted by position. Additional time is $O(n\lg n)$, space is $O(n)$
+\subsection*{Exercise 8.3-3}
+For the elements with $digits=1$, Radix sort equals to the common comparison sort, such that it works. Assume for the elements with digits less than k, the radix sort works. Now we use radix sort to deal with the elements with digit length equal to k. Since all the elements have been sorted with digit k and the elements which have same digit k will be kept in order by their lower $k-1$ digits(the previous result is stable), such that all elements are in their correct position.
+\subsection*{Exercise 8.3-4}
+Denote $n_k$ as the value at position k of integer n, we split the n into $d_{n^3}...d_{n^2+1}$,\\$d_{n^2}...d_{n+1}$,$d_{n}...d_{1}$, sort each range with counting sort. The counting sort will cost $O(n)$ time because the upper bound of range is n, such that the whole procedure is $O(n)$
+\subsection*{Exercise 8.3-5}
+The piles of card will create a tree and each non leaf node will have 10(0-9) children. Such that the total number is $9^{\sum_{i=1}^di}=3^{d(d+1)}$
+\subsection*{Exercise 8.4-1}
+Bucket0:\\
+Bucket1:.13,.16\\
+Bucket2:.20\\
+Bucket3:.39\\
+Bucket4:.42\\
+Bucket5:.53\\
+Bucket6:.64\\
+Bucket7:.79,.71\\
+Bucket8:.89\\
+Bucket9:\\
+\subsection*{Exercise 8.4-2}
+When all elements fall into the same bucket, the running time is $\Theta(n^2)$. We can use quick sort instead of insertion sort when we sort the elements in each bucket.
+\subsection*{Exercise 8.4-3}
+$E[X^2]=Pr\{X^2=0\}\cdot0+Pr\{X^2=1\}\cdot1+Pr\{X^2=4\}\cdot4=\\Pr\{X^2=1\}\cdot1+Pr\{X^2=4\}\cdot4=2\cdot\frac{1}{2}\cdot\frac{1}{2}\cdot1+\frac{1}{2}\cdot\frac{1}{2}\cdot4=\frac{3}{2}$\\
+$E^2[X]=[Pr\{X=0\}\cdot0+Pr\{X=1\}\cdot1+Pr\{X=2\}\cdot2]^2=[2\cdot\frac{1}{2}\cdot\frac{1}{2}\cdot1+\frac{1}{2}\cdot\frac{1}{2}\cdot2]^2=1$
+\subsection*{Exercise 8.4-4}
+Assign bucket i with range $(\sqrt{\frac{i-1}{n}},\sqrt{\frac{i}{n}}]$, $i\in[1,n]$. Such that the distance of $n$ points from the origin are uniformly distributed in these ranges. Compute the $d_i$ for each $i$ and put it into proper bucket, then concatenate each bucket.
+\subsection*{Exercise 8.4-5}
+We can split the range $[0,1]$ into n buckets. Because $P(x)\in[0,1]$ and if $x_i<x_j$, $P(x_i)<P(x_j)$. We compute $P(i)$ for each number i and put it into bucket k with range $[\frac{k-1}{n},\frac{k}{n})$ and $\frac{k-1}{n}\le P(i)<\frac{k}{n}$.
+\subsection*{Problem 8-1}
+\textbf{a.} An input with size $n$ has $n!$ probable permutations,which correspond to $n!$ leaves. And each permutation are equally likely. Such that each leaf has a chance of $\frac{1}{n!}$ to arrive.\\
+\textbf{b.} The recursion equality is clearly correct.\\
+\textbf{c.} The value of $D(T)$ can only be generated by $D(LT)$ and $D(RT)$ and $k$. We must choose $d(RT)$ and $d(LT)$ to generate $d(T)$, if not, cut and paste rule will give an smaller answer. Such that the equality of $d(k)$ holds.\\
+\textbf{d.} $f(i)=i\lg{i}+(k-i)\lg(k-i)$, $f'(i)=\lg{i}+\frac{1}{\ln2}+\frac{k}{(i-k)\ln2}-[\lg(k-i)+\frac{1}{(i-k)\ln2}]$, when $i=k/2$, $f'(i)=0$, which minimized $f(i)$\\
+\textbf{e.} $D(T_A)\ge d(T_A)$ and $T_A$ has $n!$ available leaves, such that $d(T_A)=d(n!)=\Omega(n!\lg(n!))$, $T_A$ has $n!$ leaves, which means it has $n!$ different routes to leaves at least. Such that the average length of a route is at least $\frac{\Omega(n!\lg(n!))}{n!}=\Omega(\lg(n!))=\Omega(n\lg{n})$. We can conclude that the average running time to sort $n$ elements is $\Omega(n\lg{n})$\\
+\textbf{f.} do not understand the question.
+\subsection*{Problem 8-2}
+\textbf{a.} Count Sort\\
+\textbf{b.} Quick Sort, we only need to partite 0 and 1\\
+\textbf{c.} Bubble Sort\\
+\textbf{d.} Count Sort is a good candidate. Its running time is $\Theta(n)$, such that the total running time is $\Theta(bn)$
+\textbf{e.} Use $O(k)$ to count the number of the elements less than 1, less than 2, ... less than k. Denote them as $n_1,n_2,...n_k$. Now we split the array into k ranges, $[0,n_1-1],[n_1,n_1+n_2-1]...[n_{k-1},n_{k-1}+n_k-1]$. Then we can swap the current element to specified range.
+\begin{codebox}
+\Procname{$\proc{Counting-Sort-Modified($A,k$)}$}
+\li SubArrayStart = The array C in $\proc{Counting-Sort($A,k$)}$
+\li delete last element from SubArrayStart
+\li add 0 to the header of SubArrayStart
+\li \For $i$ \textbf{from} $0$ \textbf{to} $A.size-1$
+\li \quad \While($SubArrayStart[A[i]]\le i$)
+\li \qquad Swap $A[i]$ and $SubArrayStart[A[i]]$
+\li \qquad $SubArrayStart[A[i]]=SubArrayStart[A[i]]+1$
+\end{codebox}
+\subsection*{Problem 8-3}
+\textbf{a.} First, use the counting sort by the number length. It will take $O(n)$, since the number which has more digits must be larger than the one which has less digits. Then use the radix sort to deal with the numbers with same length. The total running time is $O(n)$\\
+\textbf{b.}
+\begin{codebox}
+\Procname{$\proc{String-Sort-Aux($A,begin,end,curCharPos$)}$}
+$\proc{Counting-Sort}$ from $begin$ to $end$ by $curCharPos$, in this step, $[begin, end]$\\
+has been split into $k$ sub ranges their index is $[begin, i_1],[i_1+1, i_2],[i_2+1,i_3]...[i_{k-1}+1,end]$\\
+and each sub range has the same header.\\
+$\proc{Counting-Sort}$ each range by the $x_i=length(A_i)-cuCharPos$\\
+we only need to partite each sub range into two parts, one are the strings which has $x_i>0$\\
+(current character is the last character in the string), another are the $x_i=0$\\
+(current char is not the last), computing $x_i$ is $O(1)$.Assume the begin\\
+and end of the first part in sub range $i$ is $y_i,z_i$. We have k pairs $y_1,z_1$, $y_2,z_2$...$y_k,z_k$.\\
+For each pair, call $\proc{String-Sort-Aux($A,y_i,z_i,curCharPos+1$)}$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{String-Sort($A$)}$}
+\li $\proc{String-Sort-Aux($A,0,A.length-1,0$)}$
+\end{codebox}
+Each letter will be used twice in two $\proc{Counting-Sort}$. And we know the sum of letter is $n$, such that the running time is $O(n)$
+\subsection*{Problem 8-4}
+\textbf{a.} For each red jug, compare it with each blue jug, if its amount is larger than $k$ blue jug, put it at the position $k$. Do the same procedure for each blue jug, and then make the pair of the jugs with same position. The total running time is $\Theta(n)$\\
+\textbf{b.} Let $(<blue_1,red_1>,<blue_2,red_2>,...,<blue_n,red_n>)$ denote a output pair sequence of some specified algorithm, the total number of such sequence is $(n!)\cdot(n!)=(n!)^2$. By the decision tree model, the height of tree is $\Omega(\lg(n!)^2)=\Omega(n\lg{n})$, which prove the lower bound.\\
+\textbf{c.} Assume the sum of current blue jugs and red jugs is $n$. We randomly choose a blue jug, compare it with each red jugs, split the red jugs into three parts, the red jugs with amount less than that blue jugs, the only red jug with same amount, the red jug with larger amount. And we do the same procedure to the blue jugs by using the only red jug with same amount. The step cost $O(n)$. And we recursively call the algorithm for the corresponding parts. The entire algorithm is the same as $\proc{Quick-Sort}$, such that its average running time is $O(n\lg{n})$, the worst case is $O(n^2)$
+\subsection*{Problem 8-5}
+\textbf{a.} The array which is in ascending/descending order is 1-sorted.\\
+\textbf{b.} $1,2,3,4,5,6,7,8,10,9$\\
+\textbf{c.} If array is k-sorted, $\frac{\sum_{j=i}^{i+k-1}A[j]}{k}\le\frac{\sum_{j=i+1}^{i+k}A[j]}{k}\iff\frac{A[i]}{k}+\frac{\sum_{j=i+1}^{i+k-1}A[j]}{k}\le\frac{\sum_{j=i+1}^{i+k-1}A[j]}{k}+\frac{A[i+k]}{k}\iff A[i]\le A[i+k]$ for each $i$.\\
+\textbf{d.} Sort k sub array $<A_0,A_k,A_{2k}...>,<A_1,A_{k+1},A_{2k+1}...>...<A_k-1,A_{2k-1},A_{3k-1}...>$ independently. Each sub array has at most $n/k$ elements, such that using $\proc{Merge-Sort}$ will get a running time $O(n/k\lg(n/k))$. And the total running time is $O(n\lg(n/k))$\\
+\textbf{e.} We can use a heap to merge k sorted sub array. The leaf of heap is k, such that the height of heap is at most $\lg{k}$. The total running time is $O(n\lg{k})$\\
+\textbf{g.} Since condition d. holds, we must sort k groups elements, and the length of each group is $n/k$. The sum of permutation number is $(\frac{n}{k}!)^k$, so if we use the comparison sort, the running time is $\Omega((\lg\frac{n}{k}!)^k)=\Omega(k\cdot\frac{n}{k}\cdot\lg\frac{n}{k})=\Omega(n\lg\frac{n}{k})$. $k$ is a constant, the lower bound is $\Omega(n\lg{n})$
+\subsection*{Problem 8-6}
+\textbf{a.} The possible way number is $C_{2n}^n$\\
+\textbf{b.} By decision tree model, the height of tree is at least $\lg(C_{2n}^n)=\lg(2n)!-2\lg(n!)$. Use the Stirling's approximation, we have a $2n-o(n)$ lower bound.
+\textbf{c.} Assume there are two sorted array, $A$ and $B$. $A_i$ and $B_j$ are consecutive and $A_i<B_j$, then the following inequality holds for $i>1$ and $j>1$(the situation of $i=0$ or $j=0$ is trivial), $B_{j-1}\le A_i\le B_j\le A_{i+1}$. In the process of merge, $B_{j-1}$ must be popped earlier than $B_j$. Because $B_{j-1}$ is less than $A_i$, then $B_{j-1}$ will be popped earlier than $A_i$, such that the headers of $A$ and $B$ are $A_i$ and $B_j$. At this time, these two elements must be compared.\\
+\textbf{d.} The worst case occurred when the number of consecutive pair maximized in two sorted array. And we can always create the following situation, assume two arrays are $A_1,A_2...A_n$ and $B_1,B_2,...B_n$, $A_1<B_1<A_2<B_2<...<A_n<B_n$, such that the sum of consecutive pairs is $n+n-1=2n-1$, the lower bound has been proved.
+\subsection*{Problem 8-7}
+\textbf{a.} Assume $A[q]\le A[p]$. We know $A[q]$ has been put into a wrong position, so it should be put before $A[p]$, such that there must be an element put into wrong position, at the same time it's smaller than $A[p]$. It's contradict to the condition that $A[p]$ is the smallest value in A being put into the wrong position.\\
+\textbf{b.} Because $A[q]>A[p]$, by the rule of compare exchange algorithm, $q<p$ holds. But $A[q]=1$ and $A[p]=0$, which means the algorithms failed to sort the 0-1 array correctly.\\
+\textbf{c.}
+\section{Elementary Data Structures}
+\subsection*{Exercise 10.1-1}
+4\\
+4 1\\
+4 1 3\\
+4 1\\
+4 1 8\\
+4 1
+\subsection*{Exercise 10.1-2}
+Put two top pointers at the A[1] and A[n]. And the pointer at A[1] increase with each push, the pointer at A[n] decrease.
+\subsection*{Exercise 10.1-3}
+4\\
+4 1\\
+4 1 3\\
+1 3\\
+1 3 8\\
+3 8
+\subsection*{Exercise 10.1-4}
+\begin{codebox}
+\Procname{$\proc{Enqueue($Q,x$)}$}
+\li \If $Q.tail==(Q.head+Q.length)$ mod $Q.length$
+\li \quad \Return overflow
+\li $Q[Q.tail]=x$
+\li \If $Q.tail==Q.length$
+\li \quad $Q.tail=1$
+\li \textbf{else} $Q.tail=Q.tail+1$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Dequeue($Q$)}$}
+\li \If $Q.head==(Q.tail+Q.length)$ mod $Q.length$
+\li \quad \Return underflow
+\li $x=Q[Q.head]$
+\li \If $Q.head==Q.length$
+\li \quad $Q.head=1$
+\li \textbf{else} $Q.head=Q.head+1$
+\li \Return $x$
+\end{codebox}
+\subsection*{Exercise 10.1-5}
+\begin{codebox}
+\Procname{$\proc{PushFront($D,x$)}$}
+\li $D[D.head]=x$
+\li $D.head=D.head-1$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{PopFront($D$)}$}
+\li $x=D[D.head]$
+\li $D.head=D.head+1$
+\li \Return $x$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{PushBack($D,x$)}$}
+\li $D[D.tail]=x$
+\li $D.tail=D.tail+1$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{PopBack($D$)}$}
+\li $x=D[D.tail]$
+\li $D.tail=D.tail-1$
+\li \Return $x$
+\end{codebox}
+\subsection*{Exercise 10.1-6}
+\begin{codebox}
+\Procname{$\proc{EnQueue($A,B,x$)}$}
+\li $\proc{Push($A,x$)}$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{DeQueue($A,B$)}$}
+\li \textbf{while} $A$ is not empty
+\li \quad $x=\proc{Pop($A$)}$
+\li \quad $\proc{Push($B,x$)}$
+\li \Return $\proc{Pop($B$)}$
+\end{codebox}
+Without amortized analysis, the running time of $\proc{EnQueue}$ is $O(1)$, the running time of $\proc{DeQueue}$ is $O(n)$
+\subsection*{Exercise 10.1-7}
+\begin{codebox}
+\Procname{$\proc{Pop($A,B$)}$}
+\li $x=\proc{DeQueue($A$)}$
+\li \Return $x$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Push($A,B,x$)}$}
+\li \textbf{while} $A$ is not empty
+\li \quad $t=\proc{DeQueue($A$)}$
+\li \quad $\proc{EnQueue($B,t$)}$
+\li $\proc{Push($A,x$)}$
+\li \textbf{while} $B$ is not empty
+\li \quad $t=\proc{DeQueue($B$)}$
+\li \quad $\proc{EnQueue($A,t$)}$
+\end{codebox}
+Without amortized analysis, the running time of $\proc{Pop}$ is $O(1)$, the running time of $\proc{Push}$ is $O(n)$
+\subsection*{Exercise 10.2-1}
+Yes, we can. The procedure is the same as double-linked list. But we can't implement the $\proc{Delete}$ in $O(1)$, because we have to retrieve all the elements in the linked list to find the target and then delete it. It will cost $O(n)$
+\subsection*{Exercise 10.2-2}
+\begin{codebox}
+\Procname{$\proc{Push($A,x$)}$}
+\li append element at the header of $A$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Pop($A$)}$}
+\li $x=A.head$
+\li delete $A.head$
+\li \Return $x$
+\end{codebox}
+\subsection*{Exercise 10.2-3}
+\begin{codebox}
+\Procname{$\proc{EnQueue($A,x$)}$}
+\li append element at the tail of $A$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{DeQueue($A$)}$}
+\li $x=A.head$
+\li delete $A.head$
+\li \Return $x$
+\end{codebox}
+\subsection*{Exercise 10.2-4}
+\begin{codebox}
+\Procname{$\proc{List-Search'($L,k$)}$}
+\li $L.nil.key=k$
+\li $x=L.nil.next$
+\li \textbf{while} $x.key\not=k$
+\li \quad $x=x.next$
+\li \If $x\not=L.nil$
+\li \quad \Return $x$
+\end{codebox}
+\subsection*{Exercise 10.2-5}
+$\proc{Search}$ and $\proc{Delete}$ will take $O(n)$. $\proc{Insert}$ will take $O(1)$.
+\subsection*{Exercise 10.2-6}
+Use two single linked list. Connect the tail of the first list and the head of the second list. It will cost $O(1)$.
+\subsection*{Exercise 10.2-7}
+\begin{codebox}
+\Procname{$\proc{Reserve($L$)}$}
+\li $p=$ new node
+\li $newHead=p$
+\li for $i$ from $1$ to $n$
+\li \quad $t=$ new node
+\li \quad $p.next=t$
+\li \quad $p=p.next$
+\li $p.next=L.nil.next$
+\li $L.nil.next=newHead$
+\li \Return $L.nil$
+\end{codebox}
+\subsection*{Exercise 10.2-8}
+\begin{codebox}
+\Procname{$\proc{Search($L,k$)}$}
+\li $x=L.nil.np$ XOR $L.tail$
+\li $prev=L.nil$
+\li \textbf{While} $x\not=L.nil$ and $x.key\not=k$
+\li \quad $temp=x$
+\li \quad $x=x.np$ XOR $prev$
+\li \quad $prev=temp$
+\li \Return $x$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Insert($L,x$)}$}
+\li $x.np=L.nil$ XOR ($L.nil.np$ XOR $L.tail$)
+\li $t=L.nil.np$ XOR $0$
+\li $tNext=t.np$ XOR $L.nil$
+\li $tNewPrev=x$
+\li $t.np=tNext$ XOR $tNewPrev$
+\li $LNext=x$
+\li $LPrev=0$
+\li $L.nil.np=LNext$ XOR $LPrev$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Delete($L,x$)}$}
+\li $t=L.nil.np$ XOR $L.tail$
+\li $prev=L.nil$
+\li \textbf{While} $x\not=L.nil$ and $t\not=k$
+\li \quad $temp=t$
+\li \quad $t=t.np$ XOR $prev$
+\li \quad $prev=temp$
+\li $xNext=x.np$ XOR $prev$
+\li $prev.np=prev.np$ XOR $x$ XOR $xNext$
+\li $xNext.np=prev$ XOR ($xNext.np$ XOR $x$)
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Reverse($L$)}$}
+\li Swap $L.nil$ and $L.tail$
+\end{codebox}
+\subsection*{Exercise 10.3-1}
+\begin{tabular}{|c|c|c|c|c|c|c|}\hline
+$index$ & 1 & 2 & 3 & 4 & 5 & 6\\ \hline
+$prev$ & 6 & 1 & 2 & 3 & 4 & 5\\ \hline
+$key$ & 13 & 4 & 8 & 19 & 5 & 11\\ \hline
+$next$ & 2 & 3 & 4 & 5 & 6 & 1\\ \hline
+\end{tabular}\\
+\begin{tabular}{|c|c|c|c|c|c|c|}\hline
+$index$ & 1 & 2 & 3 & 4 & 5 & 6\\ \hline
+$key|prev|next$ & $13|4|16$ & $4|7|1$ & $8|10|4$ & $19|13|7$ & $5|16|10$ & $11|1|13$\\ \hline
+\end{tabular}\\
+\subsection*{Exercise 10.3-2}
+\begin{codebox}
+\Procname{$\proc{Allocate-Object($L$)}$}
+\li \If $free==-1$
+\li \quad error "out of space"
+\li \textbf{else}
+\li \quad $x=free$
+\li \quad $free=L[x+1]$
+\li \quad \Return $x$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Free-Object($L,x$)}$}
+\li $L[x+1]=free$
+\li $free=x$
+\end{codebox}
+\subsection*{Exercise 10.3-3}
+Because we only need to modify the header of the free list.
+\subsection*{Exercise 10.3-4}
+\begin{codebox}
+\Procname{$\proc{Allocate-Object($key,next,prev,top$)}$}
+\li $prev[top]=top-1$
+\li $next[top]=top+1$
+\li $top=top+1$
+\li \Return $key[top-1]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Free-Object($key,next,prev,top,x$)}$}
+\li $next[prev[x]]=next[x]$
+\li $prev[next[x]]=prev[x]$
+\li $key[x]=key[top-1]$
+\li $next[next[top-1]]=x$
+\li $next[x]=next[top-1]$
+\li $prev[x]=prev[top-1]$
+\li $top=top-1$
+\end{codebox}
+\subsection*{Exercise 10.3-5}
+\begin{codebox}
+\Procname{$\proc{Compactify-List($L,F$)}$}
+\li $cur=F$
+\li \While $cur\not=Nil$
+\li \quad $key[cur]=-\infty$
+\li \quad $cur=next[cur]$
+\li $cur=L$
+\li $LTail=1$
+\li \While $cur\not=Nil$
+\li \quad \If $key[LTail]==-\infty$
+\li \qquad $key[LTail]=key[cur]$
+\li \quad \textbf{else}
+\li \qquad Swap $key[cur]$ and $key[LTail]$
+\li \qquad $next[cur]=next[LTail]$
+\li \qquad $prev[cur]=prev[LTail]$
+\li \qquad $next[prev[LTail]]=cur$
+\li \qquad $prev[next[LTail]]=cur$
+\li \quad $cur=next[cur]$
+\li \quad $LTail=LTail+1$
+\li $cur=1$
+\li \While $cur\le m$
+\li \quad $prev[cur]=cur-1$
+\li \quad $next[cur]=cur+1$
+\li $prev[1]=Nil$
+\li $next[LTail]=Nil$
+\li $prev[LTail+1]=Nil$
+\li $next[m]=Nil$
+\li $F=LTail+1$
+\li \Return $L,F$
+\end{codebox}
+\subsection*{Exercise 10.4-1}
+L1:18;L2:12,10;L3:7,4,2,21;L4:5
+\subsection*{Exercise 10.4-2}
+\begin{codebox}
+\Procname{$\proc{Traverse-Aux($x$)}$}
+\li print $x.value$
+\li \If $x.left-child\not=Nil$
+\li \quad $\proc{Traverse-Aux($x.leftChild$)}$
+\li \If $x.right-sibling\not=Nil$
+\li \quad $\proc{Traverse-Aux($x.rightSibling$)}$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Traverse($T$)}$}
+\li $\proc{Traverse-Aux($T.root$)}$
+\end{codebox}
+\subsection*{Exercise 10.4-3}
+\begin{codebox}
+\Procname{$\proc{Traverse($T$)}$}
+\li create stack $S$
+\li $\proc{Push($S,T.root$)}$
+\li \While not $S.empty$
+\li \quad $n=\proc{Pop($S$)}$
+\li \quad visit $n$
+\li \quad \If $n.left\not=Nil$
+\li \qquad $\proc{Push($S,n.left$)}$
+\li \quad \If $n.right\not=Nil$
+\li \qquad $\proc{Push($S,n.right$)}$
+\end{codebox}
+\subsection*{Exercise 10.4-4}
+\begin{codebox}
+\Procname{$\proc{Traverse($T$)}$}
+\li create array $visited[n]$
+\li \For $i$ from $1$ to $n$
+\li \quad \If $visited[i]$
+\li \qquad \textbf{continue}
+\li \quad create stack $S$
+\li \quad $\proc{Push($S,T[i]$)}$
+\li \quad \While not $S.empty$
+\li \qquad $x=\proc{Pop($S$)}$
+\li \qquad visit $x$
+\li \qquad $visited[x]=true$
+\li \qquad \If $x.leftChild\not=Nil$
+\li \quad \qquad $\proc{Push($S,x.leftChild$)}$
+\li \qquad \If $x.nextSibling\not=Nil$
+\li \quad \qquad $\proc{Push($S,x.RightSibling$)}$
+\end{codebox}
+\subsection*{Exercise 10.4-5}
+\begin{codebox}
+\Procname{$\proc{InOrderWalkWithoutStack($root$)}$}
+\li $n=root$
+\li \While $true$ \label{li:while}
+\li \quad \While $n.left$ exists \label{li:while}
+\li \qquad $n=n.left$
+\li \quad visit $n$
+\li \quad \If $n.right$ exists \label{li:if}
+\li \qquad $n=n.right$
+\li \quad \textbf{else if} $n.left$ not exists and $n.right$ not exists
+\li \qquad \While $n.parent$ exists and $n.parent.left\ne n$
+\li \qquad \quad $n=n.parent$
+\li \qquad \If $n.parent$ not exists \label{li:if}
+\li \qquad \quad \textbf{break}
+\li \qquad visit $n.parent$
+\li \qquad \While $n.parent$ exists and $n.parent.right$ not exists or $n.parent.right=n$
+\li \qquad \quad $n=n.parent$
+\li \qquad \If $n.parent$ not exists \label{li:if}
+\li \qquad \quad \textbf{break}
+\li \qquad $n=n.parent.right$
+\end{codebox}
+\subsection*{Exercise 10.4-6}
+Two pointers: left-Child, SiblingOrParent. One boolean: IsSibling. If IsSibling is true, SiblingOrParent points to the sibling. And IsSibling is false if and only if current node is the last sibling node. Such that if we want to access the parent of current node, we need follow the pointer of nextsibling until reach the last sibling node, then go to the parent node. This action will take the time linear in the number of children.
+\subsection*{Problems 10-1}
+\begin{tabular}{|c|c|c|c|c|}\hline
+& unsorted,singly & sorted,singly & unsorted,doubly & sorted,doubly \\ \hline
+$\proc{Search($L,k$)}$ & $O(n)$ & $O(n)$ & $O(n)$ & $O(n)$\\ \hline
+$\proc{Insert($L,k$)}$ & $O(1)$ & $O(1)$ & $O(1)$ & $O(1)$\\ \hline
+$\proc{Delete($L,k$)}$ & $O(1)$ & $O(1)$ & $O(1)$ & $O(1)$\\ \hline
+$\proc{Successor($L,k$)}$ & $O(1)$ & $O(1)$ & $O(1)$ & $O(1)$\\ \hline
+$\proc{Predecessor($L,k$)}$ & $O(n)$ & $O(n)$ & $O(1)$ & $O(1)$\\ \hline
+$\proc{Minimum($L$)}$ & $O(n)$ & $O(1)$ & $O(n)$ & $O(1)$\\ \hline
+$\proc{Maximum($L$)}$ & $O(n)$ & $O(n)$ & $O(n)$ & $O(1)$\\ \hline
+\end{tabular}
+\subsection*{Problems 10-2}
+\textbf{a.}
+\begin{codebox}
+\Procname{$\proc{Make-Heap()}$}
+\li create an empty list $L$
+\li \Return $L$
+\end{codebox}
+$O(1)$
+\begin{codebox}
+\Procname{$\proc{Insert($L,x$)}$}
+\li search the target position linearly, insert $x$
+\li \Return $L$
+\end{codebox}
+$O(n)$
+\begin{codebox}
+\Procname{$\proc{Minimum($L$)}$}
+\li \Return $L.head$
+\end{codebox}
+$O(1)$
+\begin{codebox}
+\Procname{$\proc{Extract-Min($L$)}$}
+\li $x=L.head$
+\li delete the head of $L$
+\li \Return $x$
+\end{codebox}
+$O(1)$
+\begin{codebox}
+\Procname{$\proc{Union($L_1,L_2$)}$}
+\li merge $L_1$ and $L_2$
+\li \Return the new header of merged list
+\end{codebox}
+$O(|L_1|+|L_2|)$\\
+\subsection*{Problems 10-3}
+\textbf{a.} Since the sequence of integer returned by $\proc{Random($1,n$)}$ are the same, which means in the first $t-1$ iterations, both of these two procedures do not find the element. And in the $t$th iteration, $\proc{Random}$ has either reached the position of element $k$ or the position which is the previous of element $k$. Such that the number of $\textbf{for}$ loop is at least $t$, and both the $for$ and $while$ is at least $t$.\\
+\textbf{b.} \textbf{for} take $t$ iterations, and each iteration takes $O(1)$, such that the total is $O(t)$. \textbf{while} will execute $E[X_t]$ rounds to let the pointer move to the position of element $k$, so the entire procedure will take $O(t+E[X_t])$\\
+\textbf{c.} $X_t$ takes on values from the natural numbers, by \textbf{C.25}, $E[X_t]=\sum\limits_{r=1}^{\infty}Pr\{X_t\ge i\}=\sum\limits_{r=1}^{n}Pr\{X_t\ge r\}=\sum\limits_{r=1}^{n}(1-Pr\{X\le r\})^t=\sum\limits_{r=1}^{n}(1-r/n)^t$\\
+\textbf{d.} $\sum\limits_{r=0}^{n-1}r^t\le[\frac{r^{t+1}}{t+1}]^{n}_0\le{n}^{t+1}/(t+1)$\\
+\textbf{e.} $\sum\limits_{r=1}^{n}(1-r/n)^t=(1/n^t)\sum\limits_{r=1}^{n}(n-r)^t=(1/n^t)\sum\limits_{r=0}^{n-1}(r)^t\le(1/n^t){n}^{t+1}/(t+1)=n/(t+1)$\\
+\textbf{f.} by \textbf{b.} and \textbf{e.}, we will get the result.\\
+\textbf{g.} $f(t)=t+n/t$ arrives max when we set $t=\sqrt{n}$, such that it runs in $O(\sqrt{n})$\\
+\textbf{h.}
+\section{Binary Search Tree}
+\subsection*{Exercise 12.1-1}
+\textbf{2.} 10,4,17,1,5,16,21\\
+\textbf{3.} 17,10,21,4,16,1,5\\
+\textbf{4.} 21,17,10,4,16,1,5\\
+\textbf{5.} 21,17,16,10,4,1,5\\
+\textbf{6.} 21,17,16,10,5,4,1
+\subsection*{Exercise 12.1-2}
+The former property is $p.left\le p\le p.right$ but the latter is $p\le p.left$ and $p\le p.right$. No, it can not. Since we can not make sure the the relationship of the elements in the left subtree and the elements in the right.
+\subsection*{Exercise 12.1-3}
+\begin{codebox}
+\Procname{$\proc{InOrderWalkWithStack($root$)}$}
+\li $NodeStack.push(root)$
+\li $pop=false$
+\li \While $sizeof(NodeStack)>0$ \label{li:while}
+\li \quad $n=NodeStack.top$
+\li \quad \If $n.left$ exists and $pop = false$ \label{li:if}
+\li \qquad $NodeStack.push(n.left)$
+\li \quad \textbf{else}
+\li \qquad visit $n$
+\li \qquad $NodeStack.pop$
+\li \qquad $pop = true$
+\li \qquad \If $n.right$ exists \label{li:if}
+\li \quad \qquad $NodeStack.push(n.right)$
+\li \quad \qquad $pop = false$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{InOrderWalkWithoutStack($root$)}$}
+\li $n=root$
+\li \While $true$ \label{li:while}
+\li \quad \While $n.left$ exists \label{li:while}
+\li \qquad $n=n.left$
+\li \quad visit $n$
+\li \quad \If $n.right$ exists \label{li:if}
+\li \qquad $n=n.right$
+\li \quad \textbf{else if} $n.left$ not exists and $n.right$ not exists
+\li \qquad \While $n.parent$ exists and $n.parent.left\ne n$
+\li \qquad \quad $n=n.parent$
+\li \qquad \If $n.parent$ not exists \label{li:if}
+\li \qquad \quad \textbf{break}
+\li \qquad visit $n.parent$
+\li \qquad \While $n.parent$ exists and $n.parent.right$ not exists or $n.parent.right=n$
+\li \qquad \quad $n=n.parent$
+\li \qquad \If $n.parent$ not exists \label{li:if}
+\li \qquad \quad \textbf{break}
+\li \qquad $n=n.parent.right$
+\end{codebox}
+\subsection*{Exercise 12.1-4}
+\textbf{preorder:} Visit current node and visit left subtree and right subtree recursively.\\
+\textbf{postorder:} Visit left subtree and right subtree recursively, then visit current node.
+\subsection*{Exercise 12.1-5}
+Building a BST implies we sort the n elements.
+\subsection*{Exercise 12.2-1}
+c and e are incorrect.
+\subsection*{Exercise 12.2-2}
+\begin{codebox}
+\Procname{$\proc{TreeMinimum($root$)}$}
+\li \If $root.left$ exists \label{li:if}
+\li \quad \Return TreeMinimum(root.left)
+\li \textbf{else}
+\li \quad \Return root
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{TreeMaximum($root$)}$}
+\li \If $root.right$ exists \label{li:if}
+\li \quad \Return TreeMinimum(root.right)
+\li \textbf{else}
+\li \quad \Return root
+\end{codebox}
+\subsection*{Exercise 12.2-3}
+\begin{codebox}
+\Procname{$\proc{Tree-Predecessor($p$)}$}
+\li \While $p.parent.right\ne p$ \label{li:while}
+\li \quad $p=p.parent$
+\li $p=p.parent.left$
+\li \While $p.right\ne Nil$
+\li \quad $p=p.right$
+\li \Return p
+\end{codebox}
+\subsection*{Exercise 12.2-4}
+Level1: 10. Level2: 2, Level3: 4, Level4: 3, 5. Search path: 10, 2, 4, 3. 5 is to the right of path, but it is smaller than 10.
+\subsection*{Exercise 12.2-5}
+For the case of successor. It should be the left-most node in right sub tree. A left-most node cannot have left child. So does the case of predecessor.
+\subsection*{Exercise 12.2-6}
+Analyze the procedure of finding successor, if the node $x$ doesn't have right child, its successor should be the lowest parent which left child is the ancestor of $x$.
+\subsection*{Exercise 12.2-7}
+Tree-Minimum costs $O(lgn)$ time, and $n-1$calls to Tree-Successor will visit $2(n-1)$ nodes at most, which is corresponding to the $2(n-1)$ pop/push operations in InOrderWalk with stack, such that the algorithms runs within $O(lgn)+O(n)=O(n)$ time.
+\subsection*{Exercise 12.2-8}
+We can decompose the k-successor visiting procedure into two sub parts. The first part is that we go back to the parent of the current node if it is the left child of its parent. Obviously, there are at most $h$ such nodes. And the second part is we traverse the subtree of the current node. Assume the number of these kinds of nodes are $k'$, so we have $k'<k$, to traverse these nodes we need at most $O(2k')$ time cost(one for push and one for pop). Combine these parts, we need at most $O(h+k)$ time.
+\subsection*{Exercise 12.2-9}
+Assume $x$ is the left child of $y$ such that we have $x<y$. Suppose $y'$ satisfies $x<y'<y$, then $y'$ must be to the left side of $y$, and to the right side of $x$. So it must be in the right subtree of $x$. But $x$ is a leaf node. It's a contradict. So does the case of $x$ is the right child of $y$.
+\subsection*{Exercise 12.3-1}
+\begin{codebox}
+\Procname{$\proc{Tree-Insert($n, v$)}$}
+\li \If $v\ge n.value$ \label{li:if}
+\li \quad \If $n.left=Nil$ \label{li:if}
+\li \qquad $n.left=v$
+\li \quad \textbf{else}
+\li \qquad $\proc{Tree-Insert($n.left, v$)}$
+\li \textbf{else}
+\li \quad \If $n.right=Nil$ \label{li:if}
+\li \qquad $n.right=v$
+\li \quad \textbf{else}
+\li \qquad $\proc{Tree-Insert($n.right, v$)}$
+\end{codebox}
+\subsection*{Exercise 12.3-2}
+Since the place we first insert the node is the child of the node which we examine to find the correct place.
+\subsection*{Exercise 12.3-3}
+\textbf{worst-case:} $O(n)$\\
+\textbf{best-case:} $O(nlgn)$
+\subsection*{Exercise 12.3-4}
+It's commutative. The deletion of node $n$ will only impact the subtree which root is $n$. Such that if $x$ is not the ancestor of $y$ and vice versa, the deletion sequence of $x$ and $y$ can be changed. Now assume $y$ is the ancestor of $x$. Consider the case that $x$ is in the left subtree of $y$. the deletion of $x$ and $y$ will move the left-most nodes in their right subtree. And they couldn't be the same. So this case doesn't matter. Then we consider the case of $x$ is in the right subtree of $y$. The only subcase we need to take consideration is $x$ is the left-most node in the right subtree of $y$. We can prove that the sequence doesn't impact by the graph(Omit the graph now).
+\subsection*{Exercise 12.3-5}
+We needn't modify the procedure of TREE-SEARCH.
+\begin{codebox}
+\Procname{$\proc{Tree-Insert($n, v$)}$}
+\li \If $v\ge n.value$ \label{li:if}
+\li \quad \If $n.left=Nil$ \label{li:if}
+\li \qquad $n.left=v$
+\li \quad \textbf{else}
+\li \qquad $\proc{Tree-Insert($n.left, v$)}$
+\li \textbf{else}
+\li \quad \If $n.right=Nil$ \label{li:if}
+\li \qquad $n.right=v$
+\li \quad \textbf{else}
+\li \qquad $\proc{Tree-Insert($n.right, v$)}$
+\end{codebox}
+\subsection*{Exercise 12.3-6}
+Add a random procedure to choose pred/succ with $50\%$ chance.
+\subsection*{Exercise 12.4-*}
+\subsection*{Problem 12.3}
+\subsection*{Problem 12.4}
+To do
+\subsection*{Problem 12-1}
+\textbf{a.} $O(n^2)$\\
+\textbf{b.} $O(n^2)$\\
+\textbf{c.} $O(n)$\\
+\textbf{d.} worst-case performance is $O(n^2)$
+\subsection*{Problem 12-2}
+Create a radix tree, it will cost $O(n)$. And traverse it by depth-first search, and output the string when meet the terminal point. This procedure will cost $O(n)$
+\section{Dynamic Programming}
+\subsection*{Exercise 15.1-1}
+Use mathematic induction. $T(0)=2^0=1$ is correct. Assume $T(n-1)=2^{n-1}$ is correct. We have $T(n-1)=1+\sum_{j=0}^{n-2}T(j)$ and $T(n)=1+\sum_{j=0}^{n-1}T(j)=1+\sum_{j=0}^{n-2}T(j)+T(n-1)=2T(n-1)=2\cdot 2^{n-1}=2^n$.
+\subsection*{Exercise 15.1-2}
+Greedy Algorithm will give the incorrect answer with following assignment.
+\begin{tabular}{c|c|c|c|c}\hline
+$length i$ & 2 & 3 & 4 & 5\\ \hline
+$price p_i$ & 10 & 8 & 9 & 10\\ \hline
+\end{tabular}
+\subsection*{Exercise 15.1-3}
+Modify line 7 in MEMOIZED-CUT-ROD-AUX to $q=max(q,p[i]+MCRAUX(p,n-i,r)-c[i])$
+\subsection*{Exercise 15.1-4}
+log $r[i]$ with the best solution in last step.
+\subsection*{Exercise 15.1-5}
+\begin{codebox}
+\Procname{$\proc{Fibonacci-Aux($n,r$)}$}
+\li \If $n=0$ \label{li:if}
+\li \quad \Return $0$
+\li \If $r[n]>0$ \label{li:if}
+\li \quad \Return $r[n]$
+\li \Return $\proc{Fibonacci-Aux($n-1,r$)}$+$\proc{Fibonacci-Aux($n-2,r$)}$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Fibonacci($n$)}$}
+\li set $r[1...n]$ to 0
+\li \Return $\proc{Fibonacci-Aux($n,r$)}$
+\end{codebox}
+For the problem with size $n$, the subproblem has $n+1$ vertices and $2(n+1-2)=2n-2$ edges.(Each node has two out edges except the node 0 and 1)
+\subsection*{Exercise 15.2-1}
+$(A_1A_2)((A_3A_4)(A_5A_6))$
+\subsection*{Exercise 15.2-2}
+\begin{codebox}
+\Procname{$\proc{Matrix-Chain-Multiply($A,s,i,j$)}$}
+\li $k=s[i][j]$
+\li \If $k=0$ \label{li:if}
+\li \quad \Return $0$
+\li \textbf{else}
+\li \quad \Return $\proc{Matrix-Chain-Multiply($A,s,i,k$)}$ +
+\li \quad $\proc{Matrix-Chain-Multiply($A,s,k+1,j$)}$ +
+\li \quad $A[i]\cdot A[k]\cdot A[j]$
+\end{codebox}
+\subsection*{Exercise 15.2-3}
+$P(n)=\sum_{k=1}^{n-1}P(k)P(n-k)\ge \sum_{k=1}^{n-1}c^2\cdot 2^n\ge c\cdot 2^n$ holds when $c\ge 1$
+\subsection*{Exercise 15.2-4}
+vertices number is $n(n-1)/2$. And the edges number is $\sum_{i=1}^{n-1}(n-i)\sum_{j=2}^{i-1}j$, which means, we have $n-i$ subproblems with size $i$, and for each subproblem, we need to solve the sub of subproblem with size $2$ to $i-1$ totally.
+\subsection*{Exercise 15.2-5}
+$m[i,j]$ is needed by computing the set $\{m[a,j]\|a\in[1,i-1]\}$ and $\{m[i,b]\|b\in[j+1,n]\}$, so $R(i,j)=n+i-j-1$
+\subsection*{Exercise 15.2-6}
+Use strong mathematic induction. For the case $n=2$, there is only one way to do full parenthesization, it's correct. Now assume for any $k\le n-1$, the statement is true. Then we prove the case $n$, let $f(k)$ be the number of parentheses pairs, we have $f(k)=k-1$ and $f(n-k)=n-k-1$ for $2\le k\le n-1$. So for the case $n$, the number of parentheses pairs is $f(k)+f(n-k)+1=k-1+n-k-1+1=n-1$. The statement is true for n.
+\subsection*{Exercise 15.3-1}
+$\proc{Recursive-Matrix-Chain}$ is better, the number of enumeration is $2^{n-1}$ and the recursion method use only $O(n^3)$ time.
+\subsection*{Exercise 15.3-2}
+Recursion Tree:\\
+Level1:(1,16) Level2:(1,8),(9,16) Level3:(1,4),(5,8),(9,12),(13,16)\\
+Level4:(1,2),(3,4),(5,6),(7,8),(9,10),(11,12),(13,14),(15,16)\\
+The difference is that $\proc{Merge-Sort}$ doesn't have overlapping subproblems.
+\subsection*{Exercise 15.3-3}
+Yes, it does. Just replace line 5 in $\proc{Memoized-Matrix-Chain($p$)}$ with $m[i,j]=-\infty$, and line 7 in $\proc{Lookup-Chain($m,p,i,j$)}$ with if $q > m[i,j]$
+\subsection*{Exercise 15.3-4}
+Given the sequence $(1,4,2,5,3)$, use the greedy approach, we'll have the result 44. But if we deal with example from left to right, we'll get the answer 33.
+\subsection*{Exercise 15.3-5}
+Assume we have the following table\\
+\begin{tabular}{c|c|c}\hline
+$length i$ & 1 & 2\\ \hline
+$price p_i$ & 10 & 1\\ \hline
+$limit l_i$ & 1 & 1\\ \hline
+\end{tabular}\\\\
+And we need to cut a rod with length 3. We need to resolve the subproblem with length 1 and length 2. For these subproblems, both of the best choice should be length 1 rod. But we can choose the rod with length 1 only once. So the subproblems with length 2 can not use the optimal solution.
+\subsection*{Exercise 15.3-6}
+Let $R_iR_{i+1}...R{i+k}$ denotes the trade sequence start with fixed $R_i=a$ and end with fixed $R_{i+k}=b$. We need to solve the subproblem of $R_iR_{i+1}$ and $R_{i+2}...R_{i+k}$ the latter should be the optimal solution, and then we integrate them into one to get the optimal solution of the sequence $R_i...R_{i+k}$. Obviously, if it's not optimal, we can use the cut-and-paste to get a better answer. Suppose we have $r_{1n}=1$ and $r_{ij}=10$ for $\{(i,j)|i\in[1,n]\&j\in[1,n]\&(i,j)\ne (1,n)\}$. And we have $c_1=0,c_i=10000000$ for any $i\in[2,n]$, the best solution is to change the currency 1 with currency n directly. But it doesn't contain any optimal substructure.
+\subsection*{Exercise 15.4-1}
+$<1,0,1,1,0,1>$
+\subsection*{Exercise 15.4-2}
+\begin{codebox}
+\Procname{$\proc{Reconstruct-Lcs($c,x,y,i,j$)}$}
+\li \If $i=-1$ or $j=-1$
+\li \quad \Return
+\li \If $c[i][j]=c[i-1][j]$ \label{li:if}
+\li \quad \Return $\proc{Reconstruct-Lcs($c,x,y,i-1,j$)}$
+\li \textbf{else if} $c[i][j]=c[i][j-1]$
+\li \quad \Return $\proc{Reconstruct-Lcs($c,x,y,i,j-1$)}$
+\li \textbf{else}
+\li \quad \Return $\proc{Reconstruct-Lcs($c,x,y,i-1,j-1$)}+x[i]$
+\end{codebox}
+\subsection*{Exercise 15.4-3}
+\begin{codebox}
+\Procname{$\proc{Lcs-Length($c,x,y,i,j$)}$}
+\li \If $i=-1$ or $j=-1$ \label{li:if}
+\li \quad \Return 0
+\li \If $c[i][j]\ne -1$ \label{li:if}
+\li \quad \Return $c[i][j]$
+\li \If $x_i=y_j$ \label{li:if}
+\li \quad $k=\proc{Lcs-Length($c,x,y,i-1,j-1$)}+1$
+\li \quad $c[i][j]=k$
+\li \quad \Return $k$
+\li \textbf{else}
+\li \quad $k_1=\proc{Lcs-Length($c,x,y,i-1,j$)}$
+\li \quad $k_2=\proc{Lcs-Length($c,x,y,i,j-1$)}$
+\li \quad $k=max(k_1,k_2)$
+\li \quad $c[i][j]=k$
+\li \quad \Return $k$
+\end{codebox}
+\subsection*{Exercise 15.4-4}
+Assume $min(m,n)=m$, we create two arrays, $current[m]$ and $last[m]$, we initialize all the elements in last array with value 0. And in each iteration, we use $last[i-1],last[i],current[i-1]$ to compute $current[i]$. We'll get the answer after $n$ iterations. This method use $2\cdot min(m,n) entries$.\\
+We can use one array $current[m]$ and two additional variable $last_{i-1}$ and $last_i$ to compute LCS. Suppose we are computing $current[i]$, we save the $last_{i-1}$ and $last_i$ in advance. And each time we get the result of $current[i]$, before we replace the current[i] with new value, we save it to $last_i$ and we save the previous $last_i$ to the variable $last_{i-1}$ Which means we can use it to compute the next item in $current[m]$. This method use $min(m,n)+O(1)$ spaces.
+\subsection*{Exercise 15.4-5}
+\begin{codebox}
+\Procname{$\proc{Mono-Increasing-Subsequence-Aux($c,x,i$)}$}
+\li \If $i=1$ \label{li:if}
+\li \quad \Return 1
+\li \If $c[i]>-1$ \label{li:if}
+\li \quad \Return $c[i]$
+\li \textbf{for} $j$ \textbf{from} $1$ \textbf{to} $i$
+\li \quad k=$\proc{Mono-Increasing-Subsequence-Aux($x,j$)}$
+\li \quad \If $x_i>x_j$ and $k+1>c[i]$ \label{li:if}
+\li \qquad $c[i]=k+1$
+\li \Return $c[i]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Mono-Increasing-Subsequence($x$)}$}
+\li let $c$ be the array which length is same as array $x$
+\li Init $c$ with $-1$
+\li $\proc{Mono-Increasing-Subsequence-Aux($c,x,x.length$)}$
+\li \Return Max Element in $c$
+\end{codebox}
+\subsection*{Exercise 15.4-6}
+Create an AVL Search tree by the order of inserting. The tree node contains three extra fields(except the link to the), value, max subsequent length and a link to its previous. And each time after we insert a new element to the tree, we find its previous and set the max subsequent length value of the current node be the value of its previous plus one. And we link the current node to its previous. After the insertion ended, we traverse the tree, and get the node with max subsequent value. And by the link, we can find the longest monotonically increasing sub-sequence. Since we use an AVL tree, the insertion costs $O(nlgn)$ , and the traverse will cost $O(n)$.
+\begin{codebox}
+\Procname{$\proc{Construct-Optimal-Bst-Aux($root,i,j$)}$}
+\li \If $i\ge j$ \label{li:if}
+\li \quad \Return
+\li $k=root[i][j]$
+\li \If $i\le k-1$ \label{li:if}
+\li \quad print $root[i][k-1]$ is the left child of $k$
+\li \quad $\proc{Construct-Optimal-Bst-Aux($root,i,k-1$)}$
+\li \If $k+1\le j$ \label{li:if}
+\li \quad print $root[k+1][j]$ is the right child of $k$
+\li \quad $\proc{Construct-Optimal-Bst-Aux($root,k+1,j$)}$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Construct-Optimal-Bst($root$)}$}
+\li print $root[1][root.length]$ is the root
+\li $\proc{Construct-Optimal-Bst-Aux($root,1,root.length$)}$
+\end{codebox}
+\subsection*{Exercise 15.5-2}
+It's just a computing process, leave it to be solved later.
+\subsection*{Exercise 15.5-3}
+It will not affect the asymptotic running time. Computing (15.12) takes $O(n)$, so the running time of the entire algorithm is still $O(n^3)$
+\subsection*{Exercise 15.5-4}
+From this fact, each time we compute $root[i,j]$, in line 10 we needn't retrieve $r$ from $i$ to $j$, we could scan it from $root[i-1,j]$ to $root[i,j+1]$. (Need to prove the correctness)
+\subsection*{Problem 15-1}
+\begin{codebox}
+\Procname{$\proc{Longest-Simple-Path-Aux($g,c,i,t$)}$}
+\li \If $c[i][t]\ne -\infty$ \label{li:if}
+\li \quad \Return $graph[i][t]$
+\li \If $g[i][t]\ne \infty$ \label{li:if}
+\li \quad $c[i][t]=g[i][t]$
+\li \quad \Return $graph[i][t]$
+\li \textbf{for} $j$ \textbf{in} $\{j|g[i][j]\ne \infty\}$
+\li \quad $c[i][t]=max(c[i][t],g[i][j]+$\proc{Longest-Simple-Path-Aux($g,c,j,t$)}$)$
+\li \quad \Return $c[i][t]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Longest-Simple-Path($g,s,t$)}$}
+\li Init array $c[g.width][g.height]$ with $-\infty$
+\li \Return $\proc{Longest-Simple-Path-Aux($g,c,s,t$)}$
+\end{codebox}
+It looks like a topological sort graph. Since we access the internal nodes and edges from $s$ to $v$ only once, the efficiency is $O(|V|+|E|)$
+\subsection*{Problem 15-2}
+\begin{codebox}
+\Procname{$\proc{Longest-Palindrome-Subsequence($s$)}$}
+\li $maxLcs=0$
+\li $mid=0$
+\li \textbf{for} $i$ \textbf{from} $2$ \textbf{to} $s.length$
+\li \quad $t=\proc{LCS(s[1...i-1],Reverse(s[i+1...s.length]))}$
+\li \quad \If $t.length>maxLcs$ \label{li:if}
+\li \qquad $maxT=t$
+\li \qquad $maxLcs=t.length$
+\li \qquad $mid=i$
+\li \Return $maxT+s[mid]+Reverse(maxT)$
+\end{codebox}
+It takes $O(n^3)$
+\begin{codebox}
+\Procname{$\proc{Longest-Palindrome-Subsequence($s$)}$}
+\li $\proc{LCS($s$,$Reverse(s)$)}$
+\end{codebox}
+It takes $O(nlgn)$
+\subsection*{Problem 15-3}
+\begin{codebox}
+\Procname{$\proc{Bitonic-Tour-Aux($g,c,i$)}$}
+\li \If $c[i]<\infty$ \label{li:if}
+\li \quad \Return $c[i]$
+\li \textbf{for} all $k$ \textbf{in} $\{k|g[k]>g[i]\}$
+\li \quad $c[i]=min(c[i],\sum_{s>i}^{s<k}g[i][s]+$\proc{Bitonic-Tour-Aux($g,s$)}$)$
+\li \Return $c[i]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Bitonic-Tour($g$)}$}
+\li sort graph node, order from left to right, denote the sorted array with g
+\li Init array c with $\infty$
+\li $\proc{Bitonic-Tour-Aux($g,c,1$)}$
+\end{codebox}
+\subsection*{Problem 15-4}
+\begin{codebox}
+\Procname{$\proc{Split-Line-Aux($a,c,i,j$)}$}
+\li \If $c[i][j]\ne -1$ \label{li:if}
+\li \quad \Return $c[i][j]$
+\li \If $\sum_{k=i}^ja[k]<M$
+\li \quad $c[i][j]=\sum_{k=i}^ja[k]$
+\li \quad \Return $c[i][j]$
+\li \textbf{for} $k$ \textbf{from} $i+1$ \textbf{to} $j-1$
+\li \quad $c[i][j]=min(c[i][j],\proc{Split-Line-Aux($a,c,i,k$)}+\proc{Split-Line-Aux($a,c,k,j$)})$
+\li \Return $c[i][j]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Split-Line($a$)}$}
+\li init array $c$ with $-1$
+\li \Return $\proc{Split-Line-Aux($a,c,1,a.length$)}$
+\end{codebox}
+\subsection*{Problem 15-5}
+\textbf{a.}\\
+\begin{codebox}
+\Procname{$\proc{Edit-Distance-Aux($x,y,c,i,j$)}$}
+\li \If $i=0$ or $j=0$ \label{li:if}
+\li \quad \Return $0$
+\li \If $c[i][j]<\infty$ \label{li:if}
+\li \quad \Return $c[i][j]$
+\li $minDist=min(minDist,\proc{Edit-Distance-Aux($x,y,c,i-1,j-1$)}+cost(replace)$
+\li $minDist=min(minDist,\proc{Edit-Distance-Aux($x,y,c,i-1,j$)}+cost(delete)$
+\li $minDist=min(minDist,\proc{Edit-Distance-Aux($x,y,c,i,j-1$)}+cost(insert)$
+\li \If $x[i]=y[j]$ \label{li:if}
+\li \quad $minDist=min(minDist,\proc{Edit-Distance-Aux($x,y,c,i-1,j-1$)}+cost(copy)$
+\li \If $i-1>0$ and $j-1>0$ and $x[i]=y[j-1]$ and $x[i-1]=y[j]$ \label{li:if}
+\li \quad $minDist=min(minDist,\proc{Edit-Distance-Aux($x,y,c,i-2,j-2$)}+cost(twiddle)$
+\li $c[i][j]=minDist$
+\li \Return $c[i][j]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Edit-Distance($x,y$)}$}
+\li $minDist=\infty$
+\li \textbf{for} $i$ \textbf{from} $1$ to $x.length$
+\li \quad init array $c$ with $\infty$
+\li \quad $minDist=min(minDist,\proc{Edit-Distance-Aux($x,y,c,i-1,j$)}+cost(kill(i,x.length)))$
+\li \Return $minDist$
+\end{codebox}
+The running time is $O(n^3)$ and space requirement is $\Theta(n^2)$\\
+\textbf{b.}\\
+We assign the element in operation set with different values. Assume current character is $c$, $cost(copy)=1$ and only if $c$ is not space.
+$cost(replace)=-2$, if $c$ is space. $cost(replace)=-2$ if $c$ is not space and we replace $c$ with space. $cost(replace)=-1$ if we replace $c$ without space.
+$cost(delete)=0$. And the same method for the other operations.
+\subsection*{Problem 15-6}
+\begin{codebox}
+\Procname{$\proc{Best-Party-Aux($c,root$)}$}
+\li \If $root=Nil$ \label{li:if}
+\li \quad \Return $0$
+\li \If $c[root]<\infty$ \label{li:if}
+\li \quad \Return $c[root]$
+\li $x=root.leftChild$
+\li $root_0=0$
+\li init set $y$
+\li \textbf{while} $x\ne Nil$
+\li \quad $root_0.add($\proc{Best-Party-Aux($c,x$)}$)$
+\li \quad add all childs of $x$ into $y$
+\li \quad $x=x.NextSibling$
+\li $root_1=0$
+\li \textbf{for} all $x\in y$
+\li \quad $root_1.add($\proc{Best-Party-Aux($c,x$)}$)$
+\li $c[root]=max(root_0,root_1)$
+\li \Return $c[root]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Best-Party($root$)}$}
+\li init array $c$ with $\infty$
+\li \Return $\proc{Best-Party-Aux($c,root$)}$
+\end{codebox}
+The running time is $\Theta(n)$, because the in-edges of each node in sub status graph are at most two. And we have $\Theta(n)$ nodes.
+\subsection*{Problem 15-7}
+\textbf{a.} Use BFS Traverse to extend the current node. Assume we are extending the node $v_i$, we only extend the nodes which are the neighbours of $v_i$ and with value $v_iv_j=\phi_i$.
+The running time is $O(n)$.Note that we only need to return an arbitrary path so we will not access the visited node again. \\
+\textbf{b.} When using BFS, we extend the child with the sorted order, then if a path is returned, it must be the most probable path.
+\subsection*{Problem 15-8}
+\textbf{a.} We have $T(i)=3T(i-1)$ and $T(1)=n$, such that $T(m)=\Omega((3n)^m)$\\
+\textbf{b.}
+\begin{codebox}
+\Procname{$\proc{Lowest-Disruption-Aux($c,A,i,j$)}$}
+\li \If $i=m+1$ \label{li:if}
+\li \quad \Return $0$
+\li \If $c[i][j]<\infty$ \label{li:if}
+\li \quad \Return $c[i][j]$
+\li $minDis=\infty$
+\li \If $j-1>0$ \label{li:if}
+\li \quad $minDis=min(minDis,\proc{Lowest-Disruption-Aux($c,A,i+1,j-1$)})$
+\li \If $j+1\le n$ \label{li:if}
+\li \quad $minDis=min(minDis,\proc{Lowest-Disruption-Aux($c,A,i+1,j+1$)})$
+\li $minDis=min(minDis,\proc{Lowest-Disruption-Aux($c,A,i+1,j$)})$
+\li $c[i][j]=minDis$
+\li \Return $c[i][j]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Lowest-Disruption($A$)}$}
+\li $minDis=\infty$
+\li \textbf{for} $i$ \textbf{from} $1$ \textbf{to} $n$
+\li \quad init array $c$ with $\infty$
+\li \quad $minDis=min(minDis,\proc{Lowest-Disruption-Aux($c,A,i,1$)})$
+\li \Return $minDis$
+\end{codebox}
+Running time is $O(mn)$
+\subsection*{Problem 15-9}
+\begin{codebox}
+\Procname{$\proc{Least-Cost-Cut-Aux($c,L,i,j$)}$}
+\li \If $L(i,j)$ contains no other element \label{li:if}
+\li \quad \Return $0$
+\li \If $c[i][j]\ne \infty$
+\li \quad \Return $c[i][j]$
+\li $minCost=\infty$
+\li \textbf{for} $k$ $\in$ $L(i,j)$
+\li \quad $minCost=min(minCost,\proc{Least-Cost-Cut-Aux($c,L,i,k$)}+$
+\li \quad $\proc{Least-Cost-Cut-Aux($c,L,k+1,j$)}+j-i)$
+\li $c[i][j]=minCost$
+\li \Return $minCost$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Least-Cost-Cut($L,S$)}$}
+\li init array $c$ with $\infty$
+\li $\proc{Least-Cost-Cut-Aux($c,L,1,S.length$)}$
+\end{codebox}
+\subsection*{Problem 15-10}
+\textbf{a.} Assume there exists an optimal solutions, which has more than one choice for the investment in some year k. The choices are $d_{i_1}\cdot r_{i_1k},d_{i_2}\cdot r_{i_2k}...d_{i_t}\cdot r_{i_tk}$, where $d_{i_1}+d_{i_2}+...+d_{i_t}=d$. Let $r_{i_mk}$ is the highest rate in $(r_{i_1k},r_{i_2k}...r_{i_tk})$, if we let $d_{i_m}=d$ and set the other parameters to zero, we can get a higher reward than the previous decision, which cause a contradiction.\\
+\textbf{b.} If we want to know the best reward of choosing $i$th investment in the $j$th year, we should get the best reward of each investment of $j-1$th year, then we can use the table $r_{ij}$ for all $i\in n$ to compute it.\\
+\textbf{c.}
+\begin{codebox}
+\Procname{$\proc{Optimal-Investment-Aux($c,r,i,j$)}$}
+\li \If $c[i][j]\ne \infty$ \label{li:if}
+\li \quad \Return $c[i][j]$
+\li $maxInvest=0$
+\li \textbf{for} all $s\in n$
+\li \quad \textbf{for} all $t\in n,t\ne s$
+\li \qquad $maxInvest=max(maxInvest,\proc{Optimal-Investment-Aux($c,r,s,j-1$)}\cdot r_{tj}-f_2)$
+\li \quad $maxInvest=max(maxInvest,\proc{Optimal-Investment-Aux($c,r,s,j-1$)}\cdot r_{sj}-f_1)$
+\li $c[i][j]=maxInvest$
+\li \Return $c[i][j]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Optimal-Investment($r$)}$}
+\li init array $c$ with $\infty$
+\li init $c[i][1]$ for all $i\in n$ with $r_{i1}$
+\li $maxInvest=\proc{Optimal-Investment-Aux($c,r,1,10$)}$
+\li \Return $10000\cdot maxInvest$
+\end{codebox}
+\textbf{d.}
+Assume we have two investments for choice, and $r_{11}=1.2,r_{12}=1.4,r_{21}=1.4,r_{22}=1.2,f_1=1,f_2=2$, and in the second year, we can only choose $r_{11}=1.2$ and $r{22}=1.2$, and this choice is not in any optimal sub-structure.
+\subsection*{Problem 15-11}
+\begin{codebox}
+\Procname{$\proc{Min-Cost-Aux($c,h,d,i,j$)}$}
+\li \If $c[i][j]\ne \infty$ \label{li:if}
+\li \quad \Return $c[i][j]$
+\li $minCost=\infty$
+\li \textbf{for} $k\in [1,D]$
+\li \quad \If $d_i\ge k$ \label{li:if}
+\li \qquad $extra=(d_i-k-m)\cdot c$
+\li \qquad \If $extra<0$ \label{li:if}
+\li \quad \qquad $extra=0$
+\li \qquad $minCost=min(minCost,\proc{Min-Cost-Aux($c,h,d,i-1,k$)}+extra+h[k])$
+\li $c[i][j]=minCost$
+\li \Return $c[i][j]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Min-Cost($h,d$)}$}
+\li init array $c$ with $\infty$
+\li init $c[1][1...m]$ with $0$
+\li init $c[1][j|j\in(m,D]]$ with $(j-m)\cdot c$
+\li \Return \proc{Min-Cost-Aux($c,h,d,1,n$)}
+\end{codebox}
+\subsection*{Problem 15-12}
+\begin{codebox}
+\Procname{$\proc{Max-Vorp-Aux($c,vorp,price,i,j$)}$}
+\li \If $i=0$ \label{li:if}
+\li \quad \Return $0$
+\li \If $c[i][j]\ne \infty$ \label{li:if}
+\li \quad \Return $c[i][j]$
+\li $maxVorp=0$
+\li \textbf{for} all people $k$ which is in position $i$
+\li \quad \If $j-price[k]>0$ \label{li:if}
+\li \qquad $maxVorp=max(maxVorp,$
+\li \qquad $\proc{Max-Vorp-Aux($c,vorp,price,i-1,j-price[k]$)}+vorp[k])$
+\li \quad $maxVorp=max(maxVorp,\proc{Max-Vorp-Aux($c,vorp,price,i-1,j$)})$
+\li $c[i][j]=maxVorp$
+\li \Return $c[i][j]$
+\end{codebox}
+\begin{codebox}
+\Procname{$\proc{Max-Vorp($vorp,price,N,X$)}$}
+\li init array $c$ with $\infty$
+\li \Return \proc{Max-Vorp-Aux($c,vorp,price,N,X$)}
+\end{codebox}
+\section{B-Trees}
+\subsection*{Exercise 18.1-1}
+If $t=1$, the node containing $0$ key appears, and it is meaningless.
+\subsection*{Exercise 18.1-2}
+$t=2$ or $t=3$
+\subsection*{Exercise 18.1-3}
+Level 1:\{2\} Level 2:\{1\}\{3,4,5\}\\
+Level 1:\{3\} Level 2:\{1,2\}\{4,5\}\\
+Level 1:\{4\} Level 2:\{1,2,3\}\{5\}\\
+\subsection*{Exercise 18.1-4}
+$1+2\cdot (2t)^{h-1}$
+\subsection*{Exercise 18.1-5}
+wait until Chapter 13 finished.
+\end{document}
+% ----------------------------------------------------------------
