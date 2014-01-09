@@ -7,7 +7,7 @@ Some of the solutions haven't been check carefully.
 
 Ongoing Chapters:
 
-1   The Role of Algorithms in Computing
+1   The Role of Algorithms in Computing\n
 2   Getting Started
 3   Growth of Funtions
 5   Probabilistic Analysis and Randomized Algorithms
