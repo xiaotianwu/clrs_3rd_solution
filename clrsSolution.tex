@@ -1299,6 +1299,25 @@ Now we have a double confirm, the case of the random value in the huge array whi
 \li $T.size=T.size-1$
 \li $A[key]=-\infty$
 \end{codebox}
+\subsection*{Exercise 11.2-1}
+Let $X_{ij}$ denote the collision of key $i$ and $j$. $E[X]=E[\sum_{i=1}^n\sum_{j\not=i}^nX_{ij}]=n(n-1)E[X_{ij}]=\frac{n(n-1)}{m}$, and we computed the duplicated case of $X_{ij}$ and $X_{ji}$, so the expected cardinality is $E[x]/2=\frac{n(n-1))}{2m}$
+\subsection*{Exercise 11.2-2}
+We omit the internal procedure, the final distribution of the key is:\\
+slot[0]:\\
+slot[1]:$10\rightarrow19\rightarrow28$\\
+slot[2]:$20$\\
+slot[3]:$12$\\
+slot[4]:\\
+slot[5]:$5$\\
+slot[6]:$33\rightarrow15$\\
+slot[7]:\\
+slot[8]:$17$\\
+\subsection*{Exercise 11.2-3}
+Trivially, deletion has the same complexity with the original version. The running time of unsuccessful search depends on the input key, such that it can be ended if we visit the first key larger than the input. But its worst time is still $\Theta(1+\alpha)$ if the input is larger than any element in the hash table. Let indicator random variable $X_{ij}$ denote $h(k_i)=h(k_j)$ and $k_i<k_j$, since they are independent, $X_{ij}=\frac{1}{m}\cdot\frac{1}{2}=\frac{1}{2m}$. Now we take the same equality when we compute the successful search, we have$E[\frac{1}{n}\sum_{i=1}^n(1+\sum_{j=i+1}^nX_{ij})]=\frac{1}{n}\sum_{i=1}^n(1+\sum_{j=i+1}^n\frac{1}{2m})=1+\alpha/4-\alpha/4n$, better than the original version. Let $Y_j$ denote the number of the elements inserted before $j$th with the same hash value but larger than element $j$. $E[Y_j]=E[\sum_{i=1}^{j-1}y_{ij}]$, where $y_ij$ denotes the event that element $i$ has the same hash key and larger than $j$. We can see that $E[y_ij]$ is equal to $E[X_{ij}]$, which is $\frac{1}{2m}$, such that $E[y_j]=\frac{j-1}{2m}$. And we compute the average of all available $j$, we have$\frac{1}{n}\sum_{j=1}^{n}\frac{j-1}{2m}=\frac{n(n-1))}{4mn}=\frac{n-1}{4m}=\Theta(\alpha)$, it's the expected insertion time during the creation of hash table. After the table created, its worst insertion time is still $\Theta(1+\alpha)$.
+\subsection*{Exercise 11.2-5}
+Assuming simple uniform hashing. The element number of $U$ is larger than $nm$, and there are more than $nm\cdot\frac{1}{m}=n$ elements which will be mapping to the same slot.And if it's not simple uniform hashing, a slot which has more than $\frac{1}{m}$ mapping probability always exists, such that it lead to the same result as the case of simple uniform hashing.
+\subsection*{Exercise 11.2-6}
+We randomly pick a slot. And randomly pick the $i$th element in this slot, where $i\in[1,L]$. If the chain is longer than(or equal to) $i$, we pick it. If it's not enough, we do the procedure again. The probability of any element being chosen is $\frac{1}{mL}$.
 \section{Binary Search Tree}
 \subsection*{Exercise 12.1-1}
 \textbf{2.} 10,4,17,1,5,16,21\\
