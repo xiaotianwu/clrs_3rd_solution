@@ -365,11 +365,11 @@ Let random indicator variable $X_i$ denote after $n$ tossed, the $i$th bin is em
 \subsection*{Exercise 6.1-2}
 Assume the height is $x$, the inequality $2^x\le 2^{x+1}-1\implies \lg(n+1)-1\le x\le \lg n$, we have $x=\lfloor \lg n\rfloor$
 \subsection*{Exercise 6.1-3}
-Just because $i\ge max(i.left,i.right)$ hold.
+The equality $A[i]\ge max(A[i.left],A.[i.right])$ holds.
 \subsection*{Exercise 6.1-4}
 It could be any leaf node.
 \subsection*{Exercise 6.1-5}
-No. An example:$1,3,2$
+No. An example:$[1,3,2]$
 \subsection*{Exercise 6.1-6}
 No.
 \subsection*{Exercise 6.1-7}
@@ -378,36 +378,35 @@ If a node $i$ is a leaf node, then we have $2i+1>n$, such that $i>(n-1)/2$, whic
 Swap 3 and 10. Swap 3 and 9.
 \subsection*{Exercise 6.2-2}
 \begin{codebox}
-\Procname{$\proc{Max-Heapify($A, i$)}$}
+\Procname{$\proc{Min-Heapify($A, i$)}$}
 \li $l=\proc{Left}(i)$
 \li $r=\proc{Right}(i)$
-\li \If $l\le A.heap-size$ and $A[l]<A[i]$
+\li \If $l\le A.heap\text{-}size$ and $A[l]<A[i]$
 \li \quad $min=l$
 \li \textbf{else} $min=i$
-\li \If $r\le A.heap-size$ and $A[r]<A[min]$
+\li \If $r\le A.heap\text{-}size$ and $A[r]<A[min]$
 \li \quad $min=r$
 \li \If $min\ne i$
 \li \quad exchange $A[i]$ with $A[min]$
-\li \quad $\proc{Max-Heapify($A, min$)}$
+\li \quad $\proc{Min-Heapify($A, min$)}$
 \end{codebox}
 Running time is the same.
 \subsection*{Exercise 6.2-3}
-It returns directly.
+It returns without changing anything.
 \subsection*{Exercise 6.2-4}
-The current node is leaf such that it returns.
+The current node is leaf such that it returns without doing anything.
 \subsection*{Exercise 6.2-5}
 \begin{codebox}
-\Procname{$\proc{Max-Heapify-Iterative($A$)}$}
-\li $i=1$
-\li $l=\proc{Left}(i)$
-\li $r=\proc{Right}(i)$
+\Procname{$\proc{Max-Heapify-Iterative($A,i$)}$}
 \li \textbf{while} True:
-\li \quad \If $l\le A.heap-size$
+\li \quad $l=\proc{Left}(i)$
+\li \quad $r=\proc{Right}(i)$
+\li \quad \If $l\le A.heap\text{-}size$
 \li \qquad \If $A[l]<A[i]$ $min=l$
 \li \qquad \textbf{else} $min=i$
-\li \quad \textbf{else if} $l>A.heap-size$
+\li \quad \textbf{else}
 \li \qquad \textbf{break}
-\li \quad \If $r\le A.heap-size$
+\li \quad \If $r\le A.heap\text{-}size$
 \li \qquad \If $A[r]<A[min]$ $min=r$
 \li \quad \If $min\ne i$
 \li \qquad exchange $A[i]$ with $A[min]$
@@ -416,28 +415,28 @@ The current node is leaf such that it returns.
 \li \qquad \textbf{break}
 \end{codebox}
 \subsection*{Exercise 6.2-6}
-The n-element heap has height $\lfloor \lg{n}\rfloor$, if max heapify do the swap for all the elements on the path, it will cost $O(\lfloor \lg{n}\rfloor)$
+By recursion $T(n)=T(2n/3)+\Theta(1)$, we have $\Omega(\lg{n})$
 \subsection*{Exercise 6.3-1}
 Swap 10 and 22. Swap 17 and 19. Swap 3 and 84. Swap 5 and 84, then swap 5 and 22, finally swap 5 and 10.
 \subsection*{Exercise 6.3-2}
-A counter example, $5,3,17,10,84$. After we do the max heapify from 1 to $\lfloor A.length/2\rfloor$, the array is $17,84,5,10,3$, which is not a max heap.
+A counter example, $[5,3,17,10,84]$. After we do the max heapify from 1 to $\lfloor A.length/2\rfloor$, the array is $[17,84,5,10,3]$, which is not a max heap.
 \subsection*{Exercise 6.3-3}
-Note that the leaf node has height 0. As we know, the leaf node of a binary tree will be less than $\lceil n/2\rceil$. And the max node number of each level will be at most half of the next level, such that $\lceil n/2^{h+1}\rceil$ holds.
+Note that the leaf node has height 0. As we know, the leaf node of a binary tree will be less than $\lceil n/2\rceil$. And the max node number of each level will be at most half of the next level, such that the number of nodes is at most $\lceil n/2^{h+1}\rceil$.
 \subsection*{Exercise 6.4-1}
-After building max heap, the array is $25,13,20,8,7,17,2,5,4$  25 will be the top, swap 4 and 25, and do the max heapify, the array is $20,13,17,8,7,4,2,5,25$. (Skip the rest.)
+After building max heap, the array is $[25,13,20,8,7,17,2,5,4]$, element 25 will be the top, swap 4 and 25, and do the max heapify, the array is $[20,13,17,8,7,4,2,5,25]$. (Skip the rest.)
 \subsection*{Exercise 6.4-2}
-\textbf{Initialization:} Before the first iteration, $A[1..n]$ is a max heap and $A[n+1..n]$ which has no elements.\\
+\textbf{Initialization:} Before the first iteration, $A[1..n]$ is a max heap and $A[n+1..n]$ has no elements.\\
 \textbf{Maintenance:} Before the iteration $i=k$, $A[1..k]$ is a max-heap. And $A[k+1..n]$ contains the $n-k$ largest elements. After this iteration, $A[k]$ is the max element in the subarray $A[1..k]$, such that $A[k..n]$ contains the $n-k+1$ largest elements. And $A[1..k]$ keeps the max-heap property because we do the max heapify.\\
 \textbf{Termination:} Before $i=1$, $A[2..n]$ contains the $n-1$ largest elements, which means $A[1..n]$ has been sorted.
 \subsection*{Exercise 6.4-3}
-\textbf{Increasing order:} Consider the $n/2$ leaf nodes which are in increasing order. After the first $n/2$ iteration of build-max-heap procedure, there are $n/4$ elements got promotion, which means their height will be decrease one. And in these $n/4$ elements, at least half of them will keep their position until the build-max-heap finished, because the node is in increasing order. Such that we have $n/8$ elements have height $\lfloor\lg{n}\rfloor-1$ or $\lfloor\lg{n}\rfloor-2$. And in the max-heapify procedure, in order to let these node to the top level, it will cost at least $(n/8)\cdot (\lfloor\lg{n}\rfloor-2)$ to move them, such that the running time is $O(nlgn)$\\
-\textbf{Decreasing order:} After the build-max-heap procedure, the array is in the original order. And each time we exchange $A[1]$ with $A[i]$, because $A[i]$ is the smallest element, so it must be down to the leaf of the current heap, such that the running time is $O(\lg{i})$. Such that the total running time is $O(nlgn)$
+\textbf{Increasing order:} Consider an increasing order array $[1,2...n]$. For any element $i$, its corresponding index position is also $i$. If we want to pop it from the heap, the element will at least swap $\lg{i}$ times in order to arrive the top of the heap. Such that the total swap counts is at least $\sum_{i=1}^n\lg{i}=\lg{n!}=n\lg{n}$. The running time is $\Theta(n\lg{n})$\\
+\textbf{Decreasing order:} After the build-max-heap procedure, the array is in the original order. Each time when we exchange $A[1]$ with $A[i]$, because $A[i]$ is the smallest element, such that it must be down to the leaf of the current heap, such that the running time is $O(\lg{i})$. Such that the total running time is $O(n\lg{n})$
 \subsection*{Exercise 6.4-4}
 The worst-running time of building max heap is $\Omega(n)$. And if the worst running time of max-heapify is $\Omega(lgn)$, after $n-1$ iterations, the worst running time is $\Omega(nlgn)$
 \subsection*{Exercise 6.4-5}
 See the paper of Sedgwick.
 \subsection*{Exercise 6.5-1}
-extract 15. Move 1 to top. Swap 1 and 13, swap 1 and 12, swap 1 and 6. This is the first iteration.(skip the rest)
+Extract 15. Move 1 to top. Swap 1 and 13, swap 1 and 12, swap 1 and 6. This is the first iteration.(skip the rest)
 \subsection*{Exercise 6.5-2}
 Insert 10 into the right child of 8, swap 10 and 8, swap 10 and 9.
 \subsection*{Exercise 6.5-3}
@@ -447,10 +446,10 @@ Insert 10 into the right child of 8, swap 10 and 8, swap 10 and 9.
 \end{codebox}
 \begin{codebox}
 \Procname{$\proc{Heap-Extract-Min($A$)}$}
-\li \If $A.heap-size<1$
+\li \If $A.heap\text{-}size<1$
 \li \quad \Return "heap underflow"
 \li $min=A[1]$
-\li $A[1]=A[A.heap-size]$
+\li $A[1]=A[A.heap\text{-}size]$
 \li $\proc{Min-Heapify($A,1$)}$
 \li \Return $min$
 \end{codebox}
@@ -465,15 +464,15 @@ Insert 10 into the right child of 8, swap 10 and 8, swap 10 and 9.
 \end{codebox}
 \begin{codebox}
 \Procname{$\proc{Min-Heap-Insert($A,key$)}$}
-\li $A.heap-size=A.heap-size+1$
-\li $A[A.heap-size]=-\infty$
-\li $\proc{Heap-Decrease-Key($A,A.heap-size,key$)}$
+\li $A.heap-size=A.heap\text{-}size+1$
+\li $A[A.heap\text{-}size]=-\infty$
+\li $\proc{Heap-Decrease-Key($A,A.heap\text{-}size,key$)}$
 \end{codebox}
 \subsection*{Exercise 6.5-4}
 Because if not, $\proc{Heap-Increase-Key}$ will return error.
 \subsection*{Exercise 6.5-5}
-\textbf{Initialization:} Before the first loop, $A[1...A.heap-size]$ is a max heap.Since we only increase $A[i]$ and all the other elements are original value, which means except the case $A[i]$ maybe larger than its parent. All the other elements are keep in max-heap order.\\
-\textbf{Maintenance:} Before each iteration, the subtree rooted at $A[i]$ is a max heap. And after we change the order of $A[i]$ and its parent, the subtree rooted at $A[parent(i)]$ still be a max heap. Because we only swap $i$ and its parent, and the other nodes do not changed. Such that the entire array are in max heap order.\\
+\textbf{Initialization:} Before the first loop, $A[1...A.heap\text{-}size]$ is a max heap.Since we only increase $A[i]$ and all the other elements are original value, which means except the case $A[i]$ maybe larger than its parent. All the other elements are keep in max-heap order.\\
+\textbf{Maintenance:} Before each iteration, the subtree rooted at $A[i]$ is a max heap. And after we change the order of $A[i]$ and its parent, the subtree rooted at $A[parent(i)]$ still be a max heap. Because we only swap $i$ and its parent, and the other nodes do not changed. Such that the entire array is in max heap order.\\
 \textbf{Termination:} When the loop ended, $A$ is a max heap.
 \subsection*{Exercise 6.5-6}
 \begin{codebox}
@@ -487,19 +486,19 @@ Because if not, $\proc{Heap-Increase-Key}$ will return error.
 \li $A[i]=key$
 \end{codebox}
 \subsection*{Exercise 6.5-7}
-Use a min heap. And we assign the first element we want to push it to the heap with priority 1, and each time we insert new element to the heap. We increase its priority with one. Since the priority of older element is always smaller than new element, it will be extracted early, we get a FIFO queue. If each time we insert new element to the heap, we decrease its priority with one, then the priority of older element is always larger than the new, such that it will be extracted later, we get a stack.
+Use a min heap. And we assign the first element which we want to push to the heap with priority 1, and each time we insert new element to the heap. We increase its priority with one. Since the priority of older element is always smaller than new element, it will be extracted early, we get a FIFO queue. If each time we insert new element to the heap, we decrease its priority with one, then the priority of older element is always larger than the new, such that it will be extracted later, we get a stack.
 \subsection*{Exercise 6.5-8}
 \begin{codebox}
 \Procname{$\proc{Heap-Delete($A,i$)}$}
-\li exchange $A[i]$ with $A[A.heap-size]$
-\li $A[A.heap-size]=A[A.heap-size]-1$
+\li exchange $A[i]$ with $A[A.heap\text{-}size]$
+\li $A[A.heap\text{-}size]=A[A.heap\text{-}size]-1$
 \li $\proc{Max-Heapify($A,i$)}$
 \end{codebox}
 \subsection*{Exercise 6.5-9}
 We build a min heap with the first elements of $k$ sorted array. The node contains two fields, its value and the array index(from 1 to k). This step takes $O(k)$. And each time we extract the top element, we assign the top node with the element which has the same array index as last extracted node. Then we do the procedure min heapify. And this loop takes $O((n-k)\lg{k})$, we get the first $n-k$ smallest element. In the end, we use the procedure $\proc{Heap-Sort}$(we don't use the \proc{Build-Max-heap}) to get the last $k$ largest element, it will take $O(k\lg{k})$. The total procedure costs $O(n\lg{k})$
 \subsection*{Problem 6-1}
 \textbf{a.} No,they didn't. Consider the case $1,2,3,4,5$, $\proc{Build-Max-Heap}$ will create a max heap $5,4,3,1,2$, and $\proc{Build-Max-Heap'}$ will create a max heap $5,4,2,1,3$\\
-\textbf{b.} The worst case occurs we swap all the elements from the path of leaf to root when we do the $\proc{Max-Heap-Insert}$. The entire procedure will cost $\sum_{i=2}^n\lg{i}=\lg{n!}=\Theta(n\lg{n})$
+\textbf{b.} The worst case occurs when we insert the elements with increasing order. We have to swap all the elements from the path of leaf to root in $\proc{Max-Heap-Insert}$. The entire procedure will take $\sum_{i=2}^n\lg{i}=\lg{n!}=\Theta(n\lg{n})$
 \subsection*{Problem 6-2}
 \textbf{a.} Same as binary heap. In BFS order, from left to right.\\
 \textbf{b.} $\lfloor\log_d(nd-n)\rfloor$\\
@@ -1315,7 +1314,7 @@ slot[8]:$17$\\
 \subsection*{Exercise 11.2-3}
 Trivially, deletion has the same complexity with the original version. The running time of unsuccessful search depends on the input key, such that it can be ended if we visit the first key larger than the input. But its worst time is still $\Theta(1+\alpha)$ if the input is larger than any element in the hash table. Let indicator random variable $X_{ij}$ denote $h(k_i)=h(k_j)$ and $k_i<k_j$, since they are independent, $X_{ij}=\frac{1}{m}\cdot\frac{1}{2}=\frac{1}{2m}$. Now we take the same equality when we compute the successful search, we have$E[\frac{1}{n}\sum_{i=1}^n(1+\sum_{j=i+1}^nX_{ij})]=\frac{1}{n}\sum_{i=1}^n(1+\sum_{j=i+1}^n\frac{1}{2m})=1+\alpha/4-\alpha/4n$, better than the original version. Let $Y_j$ denote the number of the elements inserted before $j$th with the same hash value but larger than element $j$. $E[Y_j]=E[\sum_{i=1}^{j-1}y_{ij}]$, where $y_ij$ denotes the event that element $i$ has the same hash key and larger than $j$. We can see that $E[y_ij]$ is equal to $E[X_{ij}]$, which is $\frac{1}{2m}$, such that $E[y_j]=\frac{j-1}{2m}$. And we compute the average of all available $j$, we have$\frac{1}{n}\sum_{j=1}^{n}\frac{j-1}{2m}=\frac{n(n-1))}{4mn}=\frac{n-1}{4m}=\Theta(\alpha)$, it's the expected insertion time during the creation of hash table. After the table created, its worst insertion time is still $\Theta(1+\alpha)$.
 \subsection*{Exercise 11.2-4}
-We need a doubly linked free list. To insert a new element into hash table, we first check the flag in slot to see whether it's used or not. If it's used, we randomly choose an item from free list and move the content in used slot to it. If it's not used, we drop it from free list, so that we must modify its precessor/successor in the free list. With the help of doubly linked list, we can do it in $O(1)$ 
+We need a doubly linked free list. To insert a new element into hash table, we first check the flag in slot to see whether it's used or not. If it's used, we randomly choose an item from free list and move the content in used slot to it. If it's not used, we drop it from free list, so that we must modify its precessor/successor in the free list. With the help of doubly linked list, we can do it in $O(1)$
 \subsection*{Exercise 11.2-5}
 Assuming simple uniform hashing. The element number of $U$ is larger than $nm$, and there are more than $nm\cdot\frac{1}{m}=n$ elements which will be mapping to the same slot.And if it's not simple uniform hashing, a slot which has more than $\frac{1}{m}$ mapping probability always exists, such that it lead to the same result as the case of simple uniform hashing.
 \subsection*{Exercise 11.2-6}
