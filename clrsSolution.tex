@@ -434,7 +434,7 @@ After building max heap, the array is $[25,13,20,8,7,17,2,5,4]$, element 25 will
 \subsection*{Exercise 6.4-4}
 The worst-running time of building max heap is $\Omega(n)$. And if the worst running time of max-heapify is $\Omega(lgn)$, after $n-1$ iterations, the worst running time is $\Omega(nlgn)$
 \subsection*{Exercise 6.4-5}
-See the paper of Sedgwick.
+Any element to be popped from the heap is always be swapped to the top of the heap. Assume its distance to the root is $i$, it will take at least $i$ swap iteration for the element to arrive the top. 
 \subsection*{Exercise 6.5-1}
 Extract 15. Move 1 to top. Swap 1 and 13, swap 1 and 12, swap 1 and 6. This is the first iteration.(skip the rest)
 \subsection*{Exercise 6.5-2}
@@ -624,7 +624,7 @@ Search from the left-bottom position.
 \end{codebox}
 \section{QuickSort}
 \subsection*{Exercise 7.1-1}
-After the $\proc{Partition}$, the array $A={9,5,8,7,4,2,6,11,21,13,19,12}$
+After the $\proc{Partition}$, the array $A=[9,5,8,7,4,2,6,11,21,13,19,12]$
 \subsection*{Exercise 7.1-2}
 \begin{codebox}
 \Procname{$\proc{Partition($A,p,r$)}$}
@@ -659,9 +659,9 @@ Line 3 iterates $n-1$ times, and each exchange cost $\Theta(1)$, which causes a 
 \li \Return $i+1$
 \end{codebox}
 \subsection*{Exercise 7.2-1}
-\textbf{a.} Prove $T(n)=O(n^2)$. We assume $T(n)\le c_1n^2$. Then $T(n)=T(n-1)+\Theta(n)\le c_1(n-1)^2+c_2n=c_1n^2+(c_2-2c_1)n+1$, if we set $c_2<2c_1-1$, we can let the inequality holds.
-\textbf{b.} Prove $T(n)=\Omega(n^2)$. If we set $c_2\ge2c_1$, we can make $c_1(n-1)^2+c_2n=c_1n^2+(c_2-2c_1)n+1\ge c_1n^2$ holds.
-Combine a. and b., $T(n)=\Theta(n^2)$
+\textbf{a.} Prove $T(n)=O(n^2)$. We assume $T(n)\le c_1n^2$. Then $T(n)=T(n-1)+\Theta(n)\le c_1(n-1)^2+c_2n=c_1n^2+(c_2-2c_1)n+1$, if we set $c_2<2c_1-1$, we can let the inequality holds.\\
+\textbf{b.} Prove $T(n)=\Omega(n^2)$. If we set $c_2\ge2c_1$, we can make $c_1(n-1)^2+c_2n=c_1n^2+(c_2-2c_1)n+1\ge c_1n^2$ holds.\\
+Combine \textbf{a.} and \textbf{b.}, $T(n)=\Theta(n^2)$
 \subsection*{Exercise 7.2-2}
 We have $T(n)=T(n-1)+\Theta(n)=\Theta(n^2)$
 \subsection*{Exercise 7.2-3}
@@ -670,7 +670,7 @@ We pick either the largest or the smallest by sequence for each round, we have $
 In the almost sorted input, $\proc{QuickSort}$ will usually produce a split of $1$ and $n-1$, which will make the total time close to $\Theta(n^2)$. But $\proc{Insertion-Sort}$ tend to make a $\Theta(n)$ running time because we needn't move a lot of elements during each scanning round.
 \subsection*{Exercise 7.2-5}
 To the best case, which corresponds to the minimum level leafs in the node, we always choose the part $\alpha$. Suppose its level is $k$. Such that we have $\alpha^kn=1$, where $k=-\lg{n}/\lg{\alpha}$. To the worst case, we always choose the part $1-\alpha$ such that we have $(1-\alpha)^kn=1$, where $k=-\lg{n}/\lg(1-\alpha)$
-\subsection*{Exercise 7.2-6}
+\subsection*{Exercise 7.2-6}.
 In order to get a split more balanced than $1-\alpha$ to $\alpha$, we should choose the value between $[\alpha,1/2-\alpha+1/2]$. Since we choose the value randomly, it is uniform distributed in the range $[0,1]$, such that we have the probability of $1/2-\alpha+1/2-\alpha=1-2\alpha$ to get a better balance.
 \subsection*{Exercise 7.3-1}
 Because the worst-case doesn't occur from time to time.
@@ -791,7 +791,7 @@ Round1: SEA,TEA,MOB,TAB,DOG,RUG,DIG,BIG,\\BAR,EAR,TAR,COW,ROW,NOW,BOX,FOX\\
 Round2: TAB,BAR,EAR,TAR,SEA,TEA,DIG,BIG,\\MOB,DOG,COW,ROW,NOW,BOX,FOX,RUG\\
 Round3: BAR,BIG,BOX,COW,DIG,DOG,EAR,FOX,\\MOB,NOW,ROW,RUG,SEA,TAB,TAR,TEA
 \subsection*{Exercise 8.3-2}
-Define the structure {number, pos}, if number is equal, sorted by position. Additional time is $O(n\lg n)$, space is $O(n)$
+Define the structure \{number, pos\}, if number is equal, sorted by position. Additional time is $O(n\lg n)$, space is $O(n)$
 \subsection*{Exercise 8.3-3}
 For the elements with $digits=1$, Radix sort equals to the common comparison sort, such that it works. Assume for the elements with digits less than k, the radix sort works. Now we use radix sort to deal with the elements with digit length equal to k. Since all the elements have been sorted with digit k and the elements which have same digit k will be kept in order by their lower $k-1$ digits(the previous result is stable), such that all elements are in their correct position.
 \subsection*{Exercise 8.3-4}
