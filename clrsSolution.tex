@@ -434,7 +434,7 @@ After building max heap, the array is $[25,13,20,8,7,17,2,5,4]$, element 25 will
 \subsection*{Exercise 6.4-4}
 The worst-running time of building max heap is $\Omega(n)$. And if the worst running time of max-heapify is $\Omega(lgn)$, after $n-1$ iterations, the worst running time is $\Omega(nlgn)$
 \subsection*{Exercise 6.4-5}
-Any element to be popped from the heap is always be swapped to the top of the heap. Assume its distance to the root is $i$, it will take at least $i$ swap iteration for the element to arrive the top. 
+Any element to be popped from the heap is always be swapped to the top of the heap. Assume its distance to the root is $i$, it will take at least $i$ swap iteration for the element to arrive the top.
 \subsection*{Exercise 6.5-1}
 Extract 15. Move 1 to top. Swap 1 and 13, swap 1 and 12, swap 1 and 6. This is the first iteration.(skip the rest)
 \subsection*{Exercise 6.5-2}
@@ -1319,6 +1319,12 @@ We need a doubly linked free list. To insert a new element into hash table, we f
 Assuming simple uniform hashing. The element number of $U$ is larger than $nm$, and there are more than $nm\cdot\frac{1}{m}=n$ elements which will be mapping to the same slot.And if it's not simple uniform hashing, a slot which has more than $\frac{1}{m}$ mapping probability always exists, such that it lead to the same result as the case of simple uniform hashing.
 \subsection*{Exercise 11.2-6}
 We randomly pick a slot. And randomly pick the $i$th element in this slot, where $i\in[1,L]$. If the chain is longer than(or equal to) $i$, we pick it. If it's not enough, we do the procedure again. The probability of any element being chosen is $\frac{1}{mL}$, which is uniform. The average length of slot is $\alpha$, such that if we have a probability of $\frac{\alpha}{L}$ to get a legal position. And we know that the it's a geography distribution, so the expectation running time of it is $\frac{L}{\alpha}$. After we make sure the the slot position, we will take at most $O(L)$ to walk through the linked list to get the element. The total running time is $O(L+\frac{L}{\alpha})=O(L\cdot(1+1/\alpha))$
+\subsection*{Exercise 11.3-1}
+When searching a key with value $k$, we compare $h(k)$ with the hash value in the list first, then we compare the strings if the values are equal. And it can save the time of string comparison, which is linear to the length of it.
+\subsection*{Exercise 11.3-2}
+We can compute the hash value $h(k)$ directly. Suppose $r=r_1r_2...r_n$. And $k=\sum_{i=1}^nr_i\cdot128^i$, $h(k)=\sum_{i=1}^nr_i\cdot128^i\mod{m}$. Since we have $(a+b)\mod{c}=(a\mod{c}+b\mod{c})\mod{c}$. Apply it to the previous equality $f(n)=\sum_{i=1}^nr_i\cdot128^i\mod{m}$, we get $f(n)=(f(n-1)+r_n\mod{m})\mod{m}$. We could use the recursion to compute the value without store the 128-radix number.
+\subsection*{Exercise 11.3-3}
+Let string $S=s_1s_2...s_n$. With the condition in the question, we have $h(S)=\sum_{i=1}^ns_i\cdot2^{pi}\mod{2^p-1}=(\sum_{i=1}^n(s_i\cdot2^{pi}\mod(2^p-1)))\mod(2^p-1)=(\sum_{i=1}^n(s_i\mod(2^p-1)))\mod(2^p-1)$, which is not related to the sequence order of $i$. Such that the permutation of the same character set will have the same value. In application, "car" and "arc" will be projected to the same value, which is not desirable.
 \section{Binary Search Tree}
 \subsection*{Exercise 12.1-1}
 \textbf{2.} 10,4,17,1,5,16,21\\
