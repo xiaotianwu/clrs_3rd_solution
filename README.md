@@ -15,6 +15,7 @@ Ongoing Chapters:
 7   QuickSort  
 8   Sorting in Linear Time  
 10  Elementary Data Structures  
+11  Hash Tables  
 12  Binary Search Tree  
 15  Dynamic Programming  
 18  B-Trees  
